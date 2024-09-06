@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
 
+import { Filters } from "@/components/home/filters";
 import { Header } from "@/components/home/header";
 import { ScreenWrapper } from "@/components/screen-wrapper";
 
@@ -9,8 +9,7 @@ export default function HomeScreen() {
     <ScreenWrapper>
       <StatusBar style="light" />
       <Header />
+      <Filters />
     </ScreenWrapper>
   );
 }
-
-const styles = StyleSheet.create({});
