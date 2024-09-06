@@ -1,11 +1,14 @@
-import { StyleSheet, Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet } from "react-native";
 
+import { Header } from "@/components/home/header";
 import { ScreenWrapper } from "@/components/screen-wrapper";
 
 export default function HomeScreen() {
   return (
     <ScreenWrapper>
-      <Text>HomeScreen</Text>
+      <StatusBar style="light" />
+      <Header />
     </ScreenWrapper>
   );
 }
