@@ -1,7 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 
+import { playlists } from "@/assets/data/playlists";
 import { Filters } from "@/components/home/filters";
 import { Header } from "@/components/home/header";
+import { SmallPlaylist } from "@/components/home/small-playlist";
 import { ScreenWrapper } from "@/components/screen-wrapper";
 
 export default function HomeScreen() {
@@ -10,6 +12,7 @@ export default function HomeScreen() {
       <StatusBar style="light" />
       <Header />
       <Filters />
+      <SmallPlaylist playlists={playlists} title="Recently played" />
     </ScreenWrapper>
   );
 }
