@@ -21,6 +21,7 @@ export function ScreenWrapper({ children, style }: ScreenWrapperProps) {
           flex: 1,
           paddingTop,
           paddingHorizontal: wp(5),
+          paddingBottom: wp(22),
           backgroundColor: colors.background,
         },
         style,

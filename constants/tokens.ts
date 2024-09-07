@@ -1,7 +1,7 @@
 export const colors = {
   primary: "#BB86FC", // Light Purple
   primaryVariant: "#3700B3", // Darker Purple
-  transparent: "rgba(0, 0, 0, 0.7)", // Fully Transparent
+  transparent: "rgba(0, 0, 0, 0.5)", // Fully Transparent
   secondary: "#03DAC6", // Teal
   background: "#121212", // Very Dark Gray
   surface: "#1E1E1E", // Slightly Lighter Gray

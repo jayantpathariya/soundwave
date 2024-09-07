@@ -5,6 +5,7 @@ import {
   ParamListBase,
   TabNavigationState,
 } from "@react-navigation/native";
+import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
@@ -60,65 +61,61 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
 
   return (
     <LinearGradient
-      colors={[colors.background, colors.transparent]}
-      style={styles.container}
+      colors={[colors.transparent, colors.onPrimary]}
+      style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}
     >
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, route.params);
+      <BlurView intensity={25} style={styles.container}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const isFocused = state.index === index;
+          const onPress = () => {
+            const event = navigation.emit({
+              type: "tabPress",
+              target: route.key,
+              canPreventDefault: true,
+            });
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name, route.params);
+            }
+          };
+          const label = options.title ?? route.name;
+          const routeName = route.name as RouteName;
+          const IconComponent = icons[routeName];
+          if (!IconComponent) {
+            console.warn(`No icon found for route: ${routeName}`);
+            return null;
           }
-        };
-
-        const label = options.title ?? route.name;
-
-        const routeName = route.name as RouteName;
-        const IconComponent = icons[routeName];
-
-        if (!IconComponent) {
-          console.warn(`No icon found for route: ${routeName}`);
-          return null;
-        }
-
-        return (
-          <TouchableOpacity
-            accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            key={route.key}
-            onPress={onPress}
-            style={styles.button}
-            activeOpacity={0.7}
-          >
-            <IconComponent
-              focused={isFocused}
-              color={isFocused ? colors.text.primary : colors.text.secondary}
-              size={24}
-            />
-            <Text
-              style={[
-                styles.text,
-                {
-                  color: isFocused
-                    ? colors.text.primary
-                    : colors.text.secondary,
-                },
-              ]}
+          return (
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              key={route.key}
+              onPress={onPress}
+              style={styles.button}
+              activeOpacity={0.7}
             >
-              {label}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+              <IconComponent
+                focused={isFocused}
+                color={isFocused ? colors.text.primary : colors.text.secondary}
+                size={24}
+              />
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    color: isFocused
+                      ? colors.text.primary
+                      : colors.text.secondary,
+                  },
+                ]}
+              >
+                {label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </BlurView>
     </LinearGradient>
   );
 }
@@ -126,8 +123,8 @@ export function TabBar({ state, descriptors, navigation }: TabBarProps) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    padding: wp(5),
+    justifyContent: "space-around",
+    padding: wp(2),
   },
   button: {
     padding: wp(2),
