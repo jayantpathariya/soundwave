@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: wp(2),
+    marginTop: -wp(25),
   },
   title: {
     color: colors.text.primary,
