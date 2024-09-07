@@ -8,19 +8,20 @@ type PlaylistCardProps = PlaylistType;
 
 export function PlaylistCard({ title, image, isPlaying }: PlaylistCardProps) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity activeOpacity={0.7}>
       <Image
         source={{ uri: image ?? unknownTrackImageUrl }}
         style={styles.image}
       />
-      <Text style={styles.title}>{title}</Text>
+      <Text numberOfLines={1} style={styles.title}>
+        {title}
+      </Text>
       <Text style={styles.subtitle}>Playlist</Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
   image: {
     borderRadius: 10,
     width: wp(43.5),

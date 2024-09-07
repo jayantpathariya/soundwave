@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
@@ -8,13 +8,14 @@ import { SmallPlaylistCard } from "./small-playlist-card";
 type SmallPlaylistProps = {
   title: string;
   playlists: PlaylistType[];
+  style?: ViewStyle;
 };
 
 const ItemSeparatorComponent = () => <View style={styles.separator} />;
 
-export function SmallPlaylist({ title, playlists }: SmallPlaylistProps) {
+export function SmallPlaylist({ title, playlists, style }: SmallPlaylistProps) {
   return (
-    <View>
+    <View style={style}>
       <Text style={styles.title}>{title}</Text>
       <FlatList
         data={playlists}
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
     fontSize: fontSizes.xl,
     fontWeight: "500",
-    marginBottom: wp(3),
+    marginBottom: wp(2),
   },
   separator: {
     width: wp(3),
