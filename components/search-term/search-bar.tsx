@@ -20,9 +20,11 @@ export function SearchBar({ searchQuery, setSearchQuery }: SearchBarProps) {
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <TouchableOpacity activeOpacity={0.7} style={styles.clearBtn}>
-        <Ionicons name="close" size={26} color={colors.text.secondary} />
-      </TouchableOpacity>
+      {searchQuery && (
+        <TouchableOpacity activeOpacity={0.7} style={styles.clearBtn}>
+          <Ionicons name="close" size={26} color={colors.text.secondary} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

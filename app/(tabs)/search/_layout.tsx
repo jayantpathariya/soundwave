@@ -10,6 +10,12 @@ export default function SearchLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="search-term"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
