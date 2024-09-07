@@ -13,6 +13,9 @@ type SmallPlaylistProps = {
 
 const ItemSeparatorComponent = () => <View style={styles.separator} />;
 
+const ITEM_WIDTH = wp(28);
+const ITEM_SPACING = wp(3);
+
 export function SmallPlaylist({ title, playlists, style }: SmallPlaylistProps) {
   return (
     <View style={style}>
@@ -22,6 +25,8 @@ export function SmallPlaylist({ title, playlists, style }: SmallPlaylistProps) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <SmallPlaylistCard {...item} />}
         ItemSeparatorComponent={ItemSeparatorComponent}
+        snapToInterval={ITEM_WIDTH + ITEM_SPACING}
+        decelerationRate="fast"
         horizontal
         showsHorizontalScrollIndicator={false}
       />

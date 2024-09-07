@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import { StyleSheet } from "react-native";
 
 export default function HomeLayout() {
   return (
@@ -13,5 +12,3 @@ export default function HomeLayout() {
     </Stack>
   );
 }
-
-const styles = StyleSheet.create({});

@@ -6,14 +6,23 @@ import { Chip } from "./chip";
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export function Filters() {
+type FiltersProps = {
+  onFilterChange: (filterId: string) => void;
+  activeFilterId: string;
+};
+
+export function Filters({ onFilterChange, activeFilterId }: FiltersProps) {
   return (
     <View style={styles.container}>
       <FlatList
         data={filters}
         horizontal
         renderItem={({ item }) => (
-          <Chip title={item.title} selected={item.selected} />
+          <Chip
+            {...item}
+            onFilterChange={onFilterChange}
+            activeFilterId={activeFilterId}
+          />
         )}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.title}

@@ -1,31 +1,36 @@
-const filters = [
+export type Filter = {
+  id: string;
+  title: string;
+};
+
+const filters: Filter[] = [
   {
+    id: "1",
     title: "For you",
-    selected: true,
   },
   {
+    id: "2",
     title: "Relax",
-    selected: false,
   },
   {
+    id: "3",
     title: "Workout",
-    selected: false,
   },
   {
+    id: "4",
     title: "Travel",
-    selected: false,
   },
   {
+    id: "5",
     title: "Popular",
-    selected: false,
   },
   {
+    id: "6",
     title: "New",
-    selected: false,
   },
   {
+    id: "7",
     title: "Trending",
-    selected: false,
   },
 ];
 

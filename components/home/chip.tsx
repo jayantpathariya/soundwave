@@ -1,22 +1,25 @@
+import { Filter } from "@/assets/data/filters";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-type ChipProps = {
-  title: string;
-  selected?: boolean;
+type ChipProps = Filter & {
+  onFilterChange: (filter: string) => void;
+  activeFilterId: string;
 };
 
-export function Chip({ title, selected = false }: ChipProps) {
+export function Chip({ title, id, onFilterChange, activeFilterId }: ChipProps) {
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.container,
-        selected && { backgroundColor: colors.surface },
+        activeFilterId === id && { backgroundColor: colors.surface },
       ]}
+      activeOpacity={0.7}
+      onPress={() => onFilterChange(id)}
     >
       <Text style={styles.title}>{title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 
