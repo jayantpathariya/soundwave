@@ -1,14 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
-import filters from "@/assets/data/filters";
+import { filters } from "@/assets/data/filters";
 import { playlists } from "@/assets/data/playlists";
 import { Filters } from "@/components/home/filters";
 import { Header } from "@/components/home/header";
 import { Playlist } from "@/components/home/playlist";
 import { SmallPlaylist } from "@/components/home/small-playlist";
 import { ScreenWrapper } from "@/components/screen-wrapper";
+import { defaultStyles } from "@/constants/styles";
+import { colors } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 
 export default function HomeScreen() {
@@ -19,14 +21,20 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView>
-      <ScreenWrapper>
-        <StatusBar style="light" />
+    <ScreenWrapper>
+      <StatusBar style="light" />
+      <View style={styles.header}>
         <Header />
         <Filters
           onFilterChange={handleFilterChange}
           activeFilterId={activeFilterId}
         />
+      </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={defaultStyles.container}
+        contentContainerStyle={defaultStyles.paddingBottom}
+      >
         <SmallPlaylist playlists={playlists} title="Recently played" />
         <Playlist
           playlists={playlists}
@@ -43,7 +51,14 @@ export default function HomeScreen() {
             marginTop: wp(4),
           }}
         />
-      </ScreenWrapper>
-    </ScrollView>
+      </ScrollView>
+    </ScreenWrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    ...defaultStyles.paddingHorizontal,
+    backgroundColor: colors.background,
+  },
+});

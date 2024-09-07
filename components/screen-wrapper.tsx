@@ -1,8 +1,6 @@
+import { colors } from "@/constants/tokens";
 import { StyleProp, View, type ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-import { colors } from "@/constants/tokens";
-import { wp } from "@/lib/utils";
 
 type ScreenWrapperProps = {
   children: React.ReactNode;
@@ -20,8 +18,6 @@ export function ScreenWrapper({ children, style }: ScreenWrapperProps) {
         {
           flex: 1,
           paddingTop,
-          paddingHorizontal: wp(5),
-          paddingBottom: wp(22),
           backgroundColor: colors.background,
         },
         style,

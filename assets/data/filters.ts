@@ -3,7 +3,7 @@ export type Filter = {
   title: string;
 };
 
-const filters: Filter[] = [
+export const filters: Filter[] = [
   {
     id: "1",
     title: "For you",
