@@ -7,6 +7,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: false,
+    tracks: 12,
   },
   {
     id: "2",
@@ -14,6 +15,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: true,
+    tracks: 15,
   },
   {
     id: "3",
@@ -21,6 +23,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: false,
+    tracks: 20,
   },
   {
     id: "4",
@@ -28,6 +31,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: false,
+    tracks: 10,
   },
   {
     id: "5",
@@ -35,6 +39,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: true,
+    tracks: 8,
   },
   {
     id: "6",
@@ -42,6 +47,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: false,
+    tracks: 25,
   },
   {
     id: "7",
@@ -49,6 +55,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: true,
+    tracks: 18,
   },
   {
     id: "8",
@@ -56,6 +63,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: false,
+    tracks: 22,
   },
   {
     id: "9",
@@ -63,6 +71,7 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: false,
+    tracks: 30,
   },
   {
     id: "10",
@@ -70,5 +79,6 @@ export const playlists: PlaylistType[] = [
     image:
       "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
     isPlaying: true,
+    tracks: 14,
   },
 ];

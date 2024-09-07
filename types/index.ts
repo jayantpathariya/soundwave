@@ -3,4 +3,5 @@ export type PlaylistType = {
   title: string;
   image: string;
   isPlaying?: boolean;
+  tracks: number;
 };
