@@ -11,30 +11,15 @@ import { LinearGradient } from "expo-linear-gradient";
 
 type FloatingPlayerProps = {
   track?: Track;
+  onPress: () => void;
 };
 
-export function FloatingPlayer({ track }: FloatingPlayerProps) {
+export function FloatingPlayer({ track, onPress }: FloatingPlayerProps) {
   const imageColors = usePlayerBackground(track?.image ?? unknownTrackImageUrl);
 
   if (!track) {
     return null;
   }
-
-  console.log({ imageColors });
-
-  const colors2 = {
-    imageColors: {
-      average: "#B89E89",
-      darkMuted: "#304848",
-      darkVibrant: "#204868",
-      dominant: "#D0D0D0",
-      lightMuted: "#D0D0D0",
-      lightVibrant: "#A8C060",
-      muted: "#486878",
-      platform: "android",
-      vibrant: "#40A050",
-    },
-  };
 
   return (
     <View style={styles.container}>
@@ -42,10 +27,14 @@ export function FloatingPlayer({ track }: FloatingPlayerProps) {
         colors={
           imageColors
             ? [imageColors.average, imageColors.darkMuted]
-            : [colors.background]
+            : [colors.background, colors.background]
         }
       >
-        <TouchableOpacity activeOpacity={0.9} style={styles.player}>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={styles.player}
+          onPress={onPress}
+        >
           <View style={styles.infoContainer}>
             <FastImage
               source={{ uri: track.image ?? unknownTrackImageUrl }}

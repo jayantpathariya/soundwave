@@ -13,7 +13,7 @@ export const playlists: PlaylistType[] = [
     id: "2",
     title: "Workout Mix",
     image:
-      "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
+      "https://img.freepik.com/premium-vector/woman-listening-music-with-wireless-headphones-vector-pop-art-illustration_530563-923.jpg",
     isPlaying: true,
     tracks: 15,
   },
@@ -21,7 +21,7 @@ export const playlists: PlaylistType[] = [
     id: "3",
     title: "Top Hits",
     image:
-      "https://hellogiggles.com/wp-content/uploads/sites/7/2016/07/22/wildewoman.jpg",
+      "https://img.freepik.com/free-vector/gradient-album-cover-template_23-2150597431.jpg",
     isPlaying: false,
     tracks: 20,
   },

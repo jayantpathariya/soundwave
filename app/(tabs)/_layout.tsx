@@ -1,5 +1,4 @@
-import { tracks } from "@/assets/data/tracks";
-import { FloatingPlayer } from "@/components/floating-player";
+import { Player } from "@/components/player/player";
 import { TabBar } from "@/components/tab-bar";
 import { Tabs } from "expo-router";
 
@@ -29,7 +28,7 @@ export default function TabsLayout() {
           }}
         />
       </Tabs>
-      <FloatingPlayer track={tracks[1]} />
+      <Player />
     </>
   );
 }
