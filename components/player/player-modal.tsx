@@ -3,6 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { forwardRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import { artists } from "@/assets/data/aritst";
 import { Track } from "@/assets/data/tracks";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { defaultStyles } from "@/constants/styles";
@@ -14,6 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import FastImage from "react-native-fast-image";
 import { ScreenWrapper } from "../screen-wrapper";
 import { PlayerActionsButtons } from "./player-action-buttons";
+import { PlayerArtist } from "./player-artist";
 import { PlayerControls } from "./player-controls";
 import { PlayerHeader } from "./player-header";
 import { PlayerLyrics } from "./player-lyrics";
@@ -22,6 +24,8 @@ import { PlayerProgressBar } from "./player-progress-bar";
 type PlayerModalProps = {
   track?: Track;
 };
+
+const artist = artists[0];
 
 export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
   ({ track }, ref) => {
@@ -82,6 +86,7 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
               <PlayerControls />
               <PlayerActionsButtons />
               <PlayerLyrics gradientColors={imageColors} />
+              <PlayerArtist artist={artist} />
             </ScreenWrapper>
           </BottomSheetScrollView>
         </LinearGradient>

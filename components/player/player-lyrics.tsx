@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text } from "react-native";
 import { AndroidImageColors } from "react-native-image-colors/build/types";
 
-import { colors } from "@/constants/tokens";
+import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 
 type PlayerLyricsProps = {
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text.primary,
-    fontSize: wp(5),
-    fontWeight: "bold",
+    fontSize: fontSizes.lg,
+    fontWeight: "600",
     marginBottom: wp(4),
   },
   text: {
