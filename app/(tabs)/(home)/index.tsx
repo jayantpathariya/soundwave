@@ -30,6 +30,7 @@ export default function HomeScreen() {
           activeFilterId={activeFilterId}
         />
       </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={defaultStyles.container}

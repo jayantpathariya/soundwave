@@ -1,14 +1,30 @@
+import { usePathname, useRouter } from "expo-router";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 import { PlaylistType } from "@/types";
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 type PlaylistCardProps = PlaylistType;
 
-export function PlaylistCard({ title, image, isPlaying }: PlaylistCardProps) {
+export function PlaylistCard({ title, image, id }: PlaylistCardProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleNavigate = () => {
+    router.navigate({
+      pathname: `/${pathname}/playlist/[id]`,
+      params: { id: id },
+    });
+  };
+
   return (
-    <TouchableOpacity activeOpacity={0.7} style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={styles.container}
+      onPress={handleNavigate}
+    >
       <Image
         source={{ uri: image ?? unknownTrackImageUrl }}
         style={styles.image}

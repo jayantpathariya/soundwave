@@ -9,6 +9,12 @@ export default function HomeLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="playlist/[id]"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
