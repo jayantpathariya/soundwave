@@ -2,6 +2,7 @@ import { usePathname, useRouter } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { unknownTrackImageUrl } from "@/constants/images";
+import { playlistPaths } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 import { PlaylistType } from "@/types";
@@ -16,11 +17,9 @@ export function SmallPlaylistCard({
   const router = useRouter();
   const pathname = usePathname();
 
-  console.log({ pathname });
-
   const handleNavigate = () => {
     router.navigate({
-      pathname: `${pathname}/playlist/[id]`,
+      pathname: playlistPaths[pathname],
       params: { id: id },
     });
   };

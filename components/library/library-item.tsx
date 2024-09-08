@@ -1,7 +1,9 @@
+import { usePathname, useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
 import { unknownTrackImageUrl } from "@/constants/images";
+import { playlistPaths } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 import { PlaylistType } from "@/types";
@@ -11,8 +13,22 @@ type LibraryItemProps = {
 };
 
 export function LibraryItem({ playlist }: LibraryItemProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleNavigate = () => {
+    router.navigate({
+      pathname: playlistPaths[pathname],
+      params: { id: playlist.id },
+    });
+  };
+
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.7}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.7}
+      onPress={handleNavigate}
+    >
       <FastImage
         source={{ uri: playlist.image ?? unknownTrackImageUrl }}
         style={styles.image}
