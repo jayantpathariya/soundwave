@@ -12,7 +12,7 @@ export function SmallPlaylistCard({
   isPlaying,
 }: SmallPlaylistCardProps) {
   return (
-    <TouchableOpacity activeOpacity={0.7}>
+    <TouchableOpacity activeOpacity={0.7} style={styles.container}>
       <Image
         source={{ uri: image ?? unknownTrackImageUrl }}
         style={styles.image}
@@ -25,15 +25,18 @@ export function SmallPlaylistCard({
 }
 
 const styles = StyleSheet.create({
-  image: {
-    borderRadius: 10,
+  container: {
     width: wp(28),
+  },
+  image: {
+    borderRadius: wp(2),
+    width: "100%",
     aspectRatio: 1,
   },
   title: {
     color: colors.text.secondary,
     fontSize: fontSizes.sm,
     fontWeight: "500",
-    marginTop: wp(2),
+    marginTop: wp(1.5),
   },
 });

@@ -11,8 +11,8 @@ type PlaylistProps = {
   style?: ViewStyle;
 };
 
-const ITEM_WIDTH = wp(43.5);
-const ITEM_SPACING = wp(3);
+// const ITEM_WIDTH = wp(43.5);
+// const ITEM_SPACING = wp(3);
 
 const ItemSeparatorComponent = () => <View style={styles.separator} />;
 
@@ -26,8 +26,8 @@ export function Playlist({ title, playlists, style }: PlaylistProps) {
         renderItem={({ item }) => <PlaylistCard {...item} />}
         ItemSeparatorComponent={ItemSeparatorComponent}
         horizontal
-        snapToInterval={ITEM_WIDTH + ITEM_SPACING}
-        decelerationRate="fast"
+        // snapToInterval={ITEM_WIDTH + ITEM_SPACING}
+        // decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
       />
     </View>
