@@ -13,7 +13,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import FastImage from "react-native-fast-image";
 import { ScreenWrapper } from "../screen-wrapper";
+import { PlayerActionsButtons } from "./player-action-buttons";
 import { PlayerControls } from "./player-controls";
+import { PlayerHeader } from "./player-header";
+import { PlayerLyrics } from "./player-lyrics";
 import { PlayerProgressBar } from "./player-progress-bar";
 
 type PlayerModalProps = {
@@ -46,34 +49,14 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
           <BottomSheetScrollView style={styles.scrollContainer}>
             <ScreenWrapper
               style={[
-                { backgroundColor: "transparent" },
+                { backgroundColor: "transparent", paddingBottom: wp(4) },
                 defaultStyles.paddingHorizontal,
               ]}
             >
               {/* Header */}
-              <View style={styles.header}>
-                <TouchableOpacity activeOpacity={0.7}>
-                  <Ionicons
-                    name="chevron-down"
-                    size={24}
-                    color={colors.text.primary}
-                  />
-                </TouchableOpacity>
-                <View style={styles.headerTextContainer}>
-                  <Text style={styles.headerTitle}>Now Playing</Text>
-                  <Text style={styles.headerSubtitle}>From Playlist</Text>
-                </View>
-                <TouchableOpacity activeOpacity={0.7}>
-                  <Ionicons
-                    name="ellipsis-vertical"
-                    size={24}
-                    color={colors.text.primary}
-                  />
-                </TouchableOpacity>
-              </View>
+              <PlayerHeader />
 
-              {/* Image */}
-
+              {/* Artwork */}
               <View style={styles.artworkContainer}>
                 <FastImage
                   source={{ uri: track?.image ?? unknownTrackImageUrl }}
@@ -97,6 +80,8 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
               </View>
               <PlayerProgressBar />
               <PlayerControls />
+              <PlayerActionsButtons />
+              <PlayerLyrics gradientColors={imageColors} />
             </ScreenWrapper>
           </BottomSheetScrollView>
         </LinearGradient>
@@ -108,24 +93,6 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  headerTextContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-  headerTitle: {
-    color: colors.text.primary,
-    fontSize: fontSizes.sm,
-    textTransform: "uppercase",
-  },
-  headerSubtitle: {
-    color: colors.text.primary,
-    fontSize: fontSizes.md,
   },
   artworkContainer: {
     width: "100%",

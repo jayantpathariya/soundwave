@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import type { Browse } from "@/assets/data/browse";
 import { colors } from "@/constants/tokens";
@@ -8,9 +8,12 @@ type BrowseCardProps = Browse;
 
 export function BrowseCard({ name, color }: BrowseCardProps) {
   return (
-    <View style={[styles.container, { backgroundColor: color }]}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={[styles.container, { backgroundColor: color }]}
+    >
       <Text style={styles.text}>{name}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

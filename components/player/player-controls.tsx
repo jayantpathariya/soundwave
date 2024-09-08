@@ -1,10 +1,16 @@
-import { colors } from "@/constants/tokens";
-import { wp } from "@/lib/utils";
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
+import { colors } from "@/constants/tokens";
+import { wp } from "@/lib/utils";
+
 export function PlayerControls() {
-  const isPlaying = true;
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlayPause = () => {
+    setIsPlaying((prev) => !prev);
+  };
 
   return (
     <View style={styles.container}>
@@ -18,11 +24,16 @@ export function PlayerControls() {
           color={colors.icon.primary}
         />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7} style={styles.playButton}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.playButton}
+        onPress={togglePlayPause}
+      >
         <Ionicons
           name={isPlaying ? "pause-sharp" : "play-sharp"}
           size={36}
           color={colors.background}
+          style={[!isPlaying && { transform: [{ translateX: wp(1) }] }]}
         />
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={0.7}>

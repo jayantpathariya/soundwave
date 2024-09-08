@@ -65,7 +65,7 @@ export function FloatingPlayer({ track, onPress }: FloatingPlayerProps) {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    bottom: wp(21),
+    bottom: wp(21.5),
     left: 0,
     right: 0,
     marginHorizontal: wp(1.5),
