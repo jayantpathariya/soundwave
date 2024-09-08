@@ -16,9 +16,11 @@ export function SmallPlaylistCard({
   const router = useRouter();
   const pathname = usePathname();
 
+  console.log({ pathname });
+
   const handleNavigate = () => {
     router.navigate({
-      pathname: `/${pathname}/playlist/[id]`,
+      pathname: `${pathname}/playlist/[id]`,
       params: { id: id },
     });
   };

@@ -14,7 +14,7 @@ export function PlaylistCard({ title, image, id }: PlaylistCardProps) {
 
   const handleNavigate = () => {
     router.navigate({
-      pathname: `/${pathname}/playlist/[id]`,
+      pathname: `${pathname}/playlist/[id]`,
       params: { id: id },
     });
   };
