@@ -4,7 +4,13 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { colors } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 
-export function PlayerActionsButtons() {
+type PlayerActionsButtonsProps = {
+  onOpenPlayerQueue: () => void;
+};
+
+export function PlayerActionsButtons({
+  onOpenPlayerQueue,
+}: PlayerActionsButtonsProps) {
   return (
     <View style={styles.container}>
       <TouchableOpacity activeOpacity={0.7}>
@@ -15,7 +21,7 @@ export function PlayerActionsButtons() {
           style={{ alignSelf: "center" }}
         />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7}>
+      <TouchableOpacity activeOpacity={0.7} onPress={onOpenPlayerQueue}>
         <MaterialCommunityIcons
           name="playlist-music-outline"
           size={27}
