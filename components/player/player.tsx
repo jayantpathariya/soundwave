@@ -1,5 +1,6 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
+import { BackHandler } from "react-native";
 
 import { tracks } from "@/assets/data/tracks";
 import { FloatingPlayer } from "./floating-player";
@@ -13,6 +14,22 @@ export function Player() {
   const handleOpenPlayer = useCallback(() => {
     bottomSheetRef.current?.snapToIndex(0);
   }, []);
+
+  const handleBackPress = useCallback(() => {
+    if (bottomSheetRef?.current) {
+      bottomSheetRef.current.close();
+      return true;
+    }
+    return false;
+  }, [bottomSheetRef]);
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+    };
+  }, [handleBackPress]);
 
   return (
     <>

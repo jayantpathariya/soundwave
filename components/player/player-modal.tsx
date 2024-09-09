@@ -2,8 +2,15 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
-import { forwardRef, useCallback, useRef } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { forwardRef, useCallback, useEffect, useRef } from "react";
+import {
+  BackHandler,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import FastImage from "react-native-fast-image";
 
 import { artists } from "@/assets/data/aritst";
 import { Track } from "@/assets/data/tracks";
@@ -12,7 +19,6 @@ import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
-import FastImage from "react-native-fast-image";
 import { ScreenWrapper } from "../screen-wrapper";
 import { PlayerActionsButtons } from "./player-action-buttons";
 import { PlayerArtist } from "./player-artist";
@@ -39,6 +45,22 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
     const handleOpenPlayerQueue = useCallback(() => {
       queueSheetRef.current?.snapToIndex(0);
     }, []);
+
+    const handleBackPress = useCallback(() => {
+      if (queueSheetRef?.current) {
+        queueSheetRef.current.close();
+        return true;
+      }
+      return false;
+    }, [queueSheetRef]);
+
+    useEffect(() => {
+      BackHandler.addEventListener("hardwareBackPress", handleBackPress);
+
+      return () => {
+        BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
+      };
+    }, [handleBackPress]);
 
     return (
       <>
