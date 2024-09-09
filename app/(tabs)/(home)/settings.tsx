@@ -149,7 +149,6 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    ...defaultStyles.paddingHorizontal,
   },
   header: {
     flexDirection: "row",
@@ -157,10 +156,12 @@ const styles = StyleSheet.create({
     gap: wp(3),
     paddingBottom: wp(5),
     elevation: 5,
-    marginBottom: wp(2),
+    ...defaultStyles.paddingHorizontal,
   },
   content: {
     marginTop: wp(3),
+    ...defaultStyles.paddingHorizontal,
+    ...defaultStyles.paddingBottom,
   },
   title: {
     fontSize: fontSizes.xl,
