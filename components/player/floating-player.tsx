@@ -8,6 +8,7 @@ import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
 import { LinearGradient } from "expo-linear-gradient";
+import { MovingText } from "../moving-text";
 
 type FloatingPlayerProps = {
   track?: Track;
@@ -41,15 +42,17 @@ export function FloatingPlayer({ track, onPress }: FloatingPlayerProps) {
               style={styles.image}
             />
             <View style={styles.textContainer}>
-              <Text numberOfLines={1} style={styles.title}>
-                {track.title}
-              </Text>
+              <MovingText
+                style={styles.title}
+                text={track.title}
+                animationThreshold={20}
+              />
               <Text numberOfLines={1} style={styles.artist}>
                 {track.artist}
               </Text>
             </View>
           </View>
-          <TouchableOpacity activeOpacity={0.7}>
+          <TouchableOpacity activeOpacity={0.7} style={{ marginLeft: wp(4) }}>
             <Ionicons
               name={track.isPlaying ? "pause" : "play"}
               size={26}
@@ -82,13 +85,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: wp(3),
+    flex: 1,
   },
   image: {
     width: wp(14),
     aspectRatio: 1,
   },
   textContainer: {
+    flex: 1,
     gap: wp(0.5),
+    overflow: "hidden",
   },
   title: {
     color: colors.text.primary,
