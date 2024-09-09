@@ -13,6 +13,7 @@ export const colors = {
   onBackground: "#FFFFFF", // White text on background
   onSurface: "#FFFFFF", // White text on surface
   onError: "#000000", // Black text on error color
+  white: "#FFFFFF", // White
   text: {
     primary: "#FFFFFF", // White
     secondary: "#B3B3B3", // Light Gray

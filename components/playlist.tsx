@@ -40,9 +40,7 @@ export function Playlist() {
       }
       style={{ flex: 1 }}
     >
-      <ScreenWrapper
-        style={[styles.wrapper, defaultStyles.paddingHorizontal, ,]}
-      >
+      <ScreenWrapper style={[styles.wrapper, defaultStyles.paddingHorizontal]}>
         <View style={styles.header}>
           <TouchableOpacity activeOpacity={0.7} onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color={colors.icon.primary} />

@@ -22,7 +22,7 @@ export default function SearchTerm() {
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <ScrollView>
         <View style={defaultStyles.container}>
-          <TrackList tracks={tracks.slice(6)} />
+          <TrackList tracks={tracks.slice(15)} />
           <SmallPlaylist
             title="Albums"
             playlists={playlists}

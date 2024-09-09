@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import Artist from "@/components/artist/artist";
 
-export default function Artist() {
-  return (
-    <View>
-      <Text>Artist</Text>
-    </View>
-  );
+export default function ArtistScreen() {
+  return <Artist />;
 }
