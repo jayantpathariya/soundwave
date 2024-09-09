@@ -1,9 +1,9 @@
-import { usePathname, useRouter } from "expo-router";
+import { useRouter, useSegments } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
 import { unknownTrackImageUrl } from "@/constants/images";
-import { playlistPaths } from "@/constants/paths";
+import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 import { PlaylistType } from "@/types";
@@ -14,11 +14,13 @@ type LibraryItemProps = {
 
 export function LibraryItem({ playlist }: LibraryItemProps) {
   const router = useRouter();
-  const pathname = usePathname();
+  const segments = useSegments();
 
   const handleNavigate = () => {
+    const path = `/${generatePath(segments)}/playlist/[id]`;
+
     router.navigate({
-      pathname: playlistPaths[pathname],
+      pathname: path as any,
       params: { id: playlist.id },
     });
   };

@@ -15,6 +15,12 @@ export default function SearchTermLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="artist/[id]"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

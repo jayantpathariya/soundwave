@@ -1,8 +1,8 @@
-import { usePathname, useRouter } from "expo-router";
+import { useRouter, useSegments } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { unknownTrackImageUrl } from "@/constants/images";
-import { playlistPaths } from "@/constants/paths";
+import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 import { PlaylistType } from "@/types";
@@ -11,11 +11,13 @@ type PlaylistCardProps = PlaylistType;
 
 export function PlaylistCard({ title, image, id }: PlaylistCardProps) {
   const router = useRouter();
-  const pathname = usePathname();
+  const segments = useSegments();
 
   const handleNavigate = () => {
+    const path = `/${generatePath(segments)}/playlist/[id]`;
+
     router.navigate({
-      pathname: playlistPaths[pathname],
+      pathname: path as any,
       params: { id: id },
     });
   };

@@ -1,5 +1,5 @@
 import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BackHandler } from "react-native";
 
 import { tracks } from "@/assets/data/tracks";
@@ -10,18 +10,21 @@ const track = tracks[2];
 
 export function Player() {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenPlayer = useCallback(() => {
     bottomSheetRef.current?.snapToIndex(0);
+    setIsSheetOpen(true);
   }, []);
 
   const handleBackPress = useCallback(() => {
-    if (bottomSheetRef?.current) {
-      bottomSheetRef.current.close();
+    if (isSheetOpen) {
+      bottomSheetRef.current?.close();
+      setIsSheetOpen(false);
       return true;
     }
     return false;
-  }, [bottomSheetRef]);
+  }, [isSheetOpen]);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", handleBackPress);

@@ -1,5 +1,5 @@
-export const playlistPaths = {
-  "/": "(home)/playlist/[id]",
-  "/search/search-term": "search/search-term/playlist/[id]",
-  "/library": "library/playlist/[id]",
+import { useSegments } from "expo-router";
+
+export const generatePath = (segments: ReturnType<typeof useSegments>) => {
+  return segments.join("/");
 };

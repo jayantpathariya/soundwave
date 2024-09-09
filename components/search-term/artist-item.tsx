@@ -1,7 +1,9 @@
+import { useRouter, useSegments } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
 import { Artist } from "@/assets/data/aritst";
+import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 
@@ -10,8 +12,24 @@ type ArtistItemProps = {
 };
 
 export function ArtistItem({ artist }: ArtistItemProps) {
+  const router = useRouter();
+  const segments = useSegments();
+
+  const handleNavigate = () => {
+    const path = `/${generatePath(segments)}/artist/[id]`;
+
+    router.navigate({
+      pathname: path as any,
+      params: { id: artist.id },
+    });
+  };
+
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.7}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.7}
+      onPress={handleNavigate}
+    >
       <FastImage source={{ uri: artist.image }} style={styles.image} />
       <View style={styles.textContainer}>
         <Text numberOfLines={2} style={styles.title}>

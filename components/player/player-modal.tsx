@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
-import { forwardRef, useCallback, useEffect, useRef } from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import {
   BackHandler,
   StyleSheet,
@@ -37,6 +37,7 @@ const artist = artists[0];
 export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
   ({ track }, ref) => {
     const queueSheetRef = useRef<BottomSheet>(null);
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
 
     const imageColors = usePlayerBackground(
       track?.image ?? unknownTrackImageUrl
@@ -44,15 +45,17 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
 
     const handleOpenPlayerQueue = useCallback(() => {
       queueSheetRef.current?.snapToIndex(0);
+      setIsSheetOpen(true);
     }, []);
 
     const handleBackPress = useCallback(() => {
-      if (queueSheetRef?.current) {
-        queueSheetRef.current.close();
+      if (isSheetOpen) {
+        queueSheetRef.current?.close();
+        setIsSheetOpen(false);
         return true;
       }
       return false;
-    }, [queueSheetRef]);
+    }, [queueSheetRef, isSheetOpen]);
 
     useEffect(() => {
       BackHandler.addEventListener("hardwareBackPress", handleBackPress);
