@@ -6,7 +6,7 @@ export const colors = {
   minimumTrackTintColor: "#FFFFFF", // Light Purple
   secondary: "#03DAC6", // Teal
   background: "#121212", // Very Dark Gray
-  surface: "#1E1E1E", // Slightly Lighter Gray
+  surface: "#282828", // Slightly Lighter Gray
   error: "#CF6679", // Soft Red
   onPrimary: "#000000", // Black text on primary color
   onSecondary: "#000000", // Black text on secondary color

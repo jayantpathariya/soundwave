@@ -3,27 +3,31 @@ import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { colors } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
+import { useRouter } from "expo-router";
 
 export function Header() {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <View>
-        {/* <Text style={styles.welcomeText}>Welcome Back,</Text>
-        <Text style={styles.timeText}>Good Evening</Text> */}
         <Image
           source={require("@/assets/images/logo-sm.png")}
           style={styles.logo}
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.7}>
           <Ionicons
             name="notifications-outline"
             size={24}
             color={colors.onBackground}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => router.navigate("/(home)/settings")}
+        >
           <Ionicons
             name="settings-outline"
             size={24}
