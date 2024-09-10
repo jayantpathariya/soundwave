@@ -25,7 +25,7 @@ export function TrackItem({ track }: TrackItemProps) {
           <MovingText
             style={styles.title}
             text={decode(track.title)}
-            animationThreshold={20}
+            animationThreshold={25}
           />
           <Text style={styles.artist}>{track.artists.primary[0].name}</Text>
         </View>

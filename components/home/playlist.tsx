@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
     fontSize: fontSizes.xl,
     fontWeight: "500",
-    marginBottom: wp(2),
+    marginBottom: wp(3),
   },
   separator: {
     width: wp(3),

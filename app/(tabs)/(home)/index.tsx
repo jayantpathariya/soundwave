@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   playlist: {
-    marginVertical: wp(2),
+    marginBottom: wp(4),
   },
 });
