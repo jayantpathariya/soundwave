@@ -9,24 +9,25 @@ import {
   View,
 } from "react-native";
 
-import { playlists } from "@/assets/data/playlists";
-import { tracks } from "@/assets/data/tracks";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
+import type { Playlist as PlaylistType } from "@/types/playlist";
 import { PlaylistHeader } from "./playlist-header";
 import { ScreenWrapper } from "./screen-wrapper";
 import { TrackItem } from "./track-item";
 
-const playlist = playlists[0];
+type PlaylistProps = {
+  playlist: PlaylistType;
+};
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export function Playlist() {
+export function Playlist({ playlist }: PlaylistProps) {
   const imageColors = usePlayerBackground(
-    playlist.image ?? unknownTrackImageUrl
+    playlist.image[1].url ?? unknownTrackImageUrl
   );
 
   const router = useRouter();
@@ -49,7 +50,7 @@ export function Playlist() {
         </View>
         <FlatList
           ListHeaderComponent={<PlaylistHeader playlist={playlist} />}
-          data={tracks}
+          data={playlist.songs}
           ItemSeparatorComponent={ItemSeparator}
           renderItem={({ item }) => <TrackItem track={item} />}
           showsVerticalScrollIndicator={false}

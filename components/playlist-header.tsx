@@ -2,12 +2,13 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
+import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import { PlaylistType } from "@/types";
+import type { Playlist } from "@/types/playlist";
 
 type PlaylistHeaderProps = {
-  playlist: PlaylistType;
+  playlist: Playlist;
 };
 
 export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
@@ -16,14 +17,16 @@ export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
       <View style={styles.infoContainer}>
         <View style={styles.artworkContainer}>
           <FastImage
-            source={{ uri: playlist.image }}
+            source={{ uri: playlist.image[1].url ?? unknownTrackImageUrl }}
             resizeMode="cover"
             style={styles.artwork}
           />
         </View>
         <View style={styles.infoTextContainer}>
           <Text style={styles.infoTitle}>{playlist.title}</Text>
-          <Text style={styles.infoSubtitle}>Playlist • 1h 59min</Text>
+          <Text style={styles.infoSubtitle}>
+            {playlist.type} • {playlist.songCount} songs
+          </Text>
         </View>
       </View>
       <View style={styles.controlContainer}>
@@ -99,6 +102,7 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
     fontSize: fontSizes.sm,
     fontWeight: "500",
+    textTransform: "capitalize",
   },
   controlContainer: {
     flexDirection: "row",

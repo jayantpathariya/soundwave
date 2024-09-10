@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import type { Playlist as PlaylistType } from "@/types/playlist";
+import type { MiniPlaylist as PlaylistType } from "@/types/playlist";
 
 type PlaylistProps = {
   title: string;
@@ -24,7 +24,7 @@ export function Playlist({
       <Text style={styles.title}>{title}</Text>
       <FlatList
         data={playlists}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => `${item.id}-${item.title}`}
         renderItem={({ item }) => renderItem(item)}
         ItemSeparatorComponent={ItemSeparatorComponent}
         horizontal

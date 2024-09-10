@@ -2,12 +2,12 @@ import { FlatList, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import type { Playlist } from "@/types/playlist";
+import type { MiniPlaylist } from "@/types/playlist";
 import { SmallPlaylistCard } from "./small-playlist-card";
 
 type SmallPlaylistProps = {
   title: string;
-  playlists: Playlist[];
+  playlists: MiniPlaylist[];
   style?: ViewStyle;
 };
 

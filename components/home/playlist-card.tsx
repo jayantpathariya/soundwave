@@ -5,9 +5,9 @@ import { unknownTrackImageUrl } from "@/constants/images";
 import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import type { Playlist } from "@/types/playlist";
+import type { MiniPlaylist } from "@/types/playlist";
 
-type PlaylistCardProps = Playlist;
+type PlaylistCardProps = MiniPlaylist;
 
 export function PlaylistCard({
   id,

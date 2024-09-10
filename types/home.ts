@@ -1,4 +1,4 @@
-import { Playlist } from "./playlist";
+import { MiniPlaylist } from "./playlist";
 
 export type HomeResponse = {
   data: [
@@ -6,49 +6,49 @@ export type HomeResponse = {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     },
     {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     },
     {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     },
     {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     },
     {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     },
     {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     },
     {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     },
     {
       id: string;
       key: string;
       title: string;
-      items: Playlist[];
+      items: MiniPlaylist[];
     }
   ];
 };

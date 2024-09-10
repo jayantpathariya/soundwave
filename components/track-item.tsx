@@ -1,14 +1,16 @@
+import { decode } from "html-entities";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
-import { Track } from "@/assets/data/tracks";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
+import { Song } from "@/types/song";
 import { Ionicons } from "@expo/vector-icons";
+import { MovingText } from "./moving-text";
 
 type TrackItemProps = {
-  track: Track;
+  track: Song;
 };
 
 export function TrackItem({ track }: TrackItemProps) {
@@ -16,12 +18,16 @@ export function TrackItem({ track }: TrackItemProps) {
     <TouchableOpacity style={styles.container} activeOpacity={0.7}>
       <View style={styles.infoContainer}>
         <FastImage
-          source={{ uri: track.image ?? unknownTrackImageUrl }}
+          source={{ uri: track.image[1].url ?? unknownTrackImageUrl }}
           style={styles.image}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{track.title}</Text>
-          <Text style={styles.artist}>{track.artist}</Text>
+          <MovingText
+            style={styles.title}
+            text={decode(track.title)}
+            animationThreshold={20}
+          />
+          <Text style={styles.artist}>{track.artists.primary[0].name}</Text>
         </View>
       </View>
       <TouchableOpacity>
@@ -54,7 +60,9 @@ const styles = StyleSheet.create({
     borderRadius: wp(1),
   },
   textContainer: {
+    flex: 1,
     gap: wp(1),
+    overflow: "hidden",
   },
   title: {
     fontSize: fontSizes.md,
