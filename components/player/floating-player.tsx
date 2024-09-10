@@ -1,26 +1,43 @@
 import { Ionicons } from "@expo/vector-icons";
+import { decode } from "html-entities";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
-import { Track } from "@/assets/data/tracks";
+import { MovingText } from "@/components/moving-text";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
 import { LinearGradient } from "expo-linear-gradient";
-import { MovingText } from "../moving-text";
+import { memo } from "react";
+import TrackPlayer, {
+  useActiveTrack,
+  useIsPlaying,
+} from "react-native-track-player";
 
 type FloatingPlayerProps = {
-  track?: Track;
   onPress: () => void;
 };
 
-export function FloatingPlayer({ track, onPress }: FloatingPlayerProps) {
-  const imageColors = usePlayerBackground(track?.image ?? unknownTrackImageUrl);
+export const FloatingPlayer = memo(({ onPress }: FloatingPlayerProps) => {
+  const activeTrack = useActiveTrack();
+  const { playing } = useIsPlaying();
 
-  if (!track) {
+  const imageColors = usePlayerBackground(
+    activeTrack?.image ?? unknownTrackImageUrl
+  );
+
+  if (!activeTrack) {
     return null;
   }
+
+  const handleTrackPlayPause = async () => {
+    if (playing) {
+      await TrackPlayer.pause();
+    } else {
+      await TrackPlayer.play();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -38,23 +55,30 @@ export function FloatingPlayer({ track, onPress }: FloatingPlayerProps) {
         >
           <View style={styles.infoContainer}>
             <FastImage
-              source={{ uri: track.image ?? unknownTrackImageUrl }}
+              source={{ uri: activeTrack?.artwork ?? unknownTrackImageUrl }}
               style={styles.image}
             />
             <View style={styles.textContainer}>
               <MovingText
                 style={styles.title}
-                text={track.title}
+                text={decode(activeTrack?.title) ?? "Unknown Title"}
                 animationThreshold={20}
               />
               <Text numberOfLines={1} style={styles.artist}>
-                {track.artist}
+                {activeTrack?.artist}
               </Text>
             </View>
           </View>
-          <TouchableOpacity activeOpacity={0.7} style={{ marginLeft: wp(4) }}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={{
+              marginLeft: wp(4),
+              padding: wp(2),
+            }}
+            onPress={handleTrackPlayPause}
+          >
             <Ionicons
-              name={track.isPlaying ? "pause" : "play"}
+              name={playing ? "pause" : "play"}
               size={26}
               color={colors.text.primary}
             />
@@ -63,7 +87,9 @@ export function FloatingPlayer({ track, onPress }: FloatingPlayerProps) {
       </LinearGradient>
     </View>
   );
-}
+});
+
+FloatingPlayer.displayName = "FloatingPlayer";
 
 const styles = StyleSheet.create({
   container: {

@@ -1,15 +1,19 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import TrackPlayer, { useIsPlaying } from "react-native-track-player";
 
 import { colors } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 
 export function PlayerControls() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { playing } = useIsPlaying();
 
-  const togglePlayPause = () => {
-    setIsPlaying((prev) => !prev);
+  const togglePlayPause = async () => {
+    if (playing) {
+      await TrackPlayer.pause();
+    } else {
+      await TrackPlayer.play();
+    }
   };
 
   return (
@@ -30,10 +34,10 @@ export function PlayerControls() {
         onPress={togglePlayPause}
       >
         <Ionicons
-          name={isPlaying ? "pause-sharp" : "play-sharp"}
+          name={playing ? "pause-sharp" : "play-sharp"}
           size={36}
           color={colors.background}
-          style={[!isPlaying && { transform: [{ translateX: wp(1) }] }]}
+          style={[!playing && { transform: [{ translateX: wp(1) }] }]}
         />
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={0.7}>

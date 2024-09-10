@@ -2,45 +2,46 @@ import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { decode } from "html-entities";
 import {
-  BackHandler,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { BackHandler, StyleSheet, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
+import { useActiveTrack } from "react-native-track-player";
 
 import { artists } from "@/assets/data/aritst";
-import { Track } from "@/assets/data/tracks";
+import { MovingText } from "@/components/moving-text";
+import { PlayerActionsButtons } from "@/components/player/player-action-buttons";
+import { PlayerArtist } from "@/components/player/player-artist";
+import { PlayerControls } from "@/components/player/player-controls";
+import { PlayerHeader } from "@/components/player/player-header";
+import { PlayerLyrics } from "@/components/player/player-lyrics";
+import { PlayerProgressBar } from "@/components/player/player-progress-bar";
+import { PlayerQueue } from "@/components/player/player-queue";
+import { ScreenWrapper } from "@/components/screen-wrapper";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
-import { ScreenWrapper } from "../screen-wrapper";
-import { PlayerActionsButtons } from "./player-action-buttons";
-import { PlayerArtist } from "./player-artist";
-import { PlayerControls } from "./player-controls";
-import { PlayerHeader } from "./player-header";
-import { PlayerLyrics } from "./player-lyrics";
-import { PlayerProgressBar } from "./player-progress-bar";
-import { PlayerQueue } from "./player-queue";
-
-type PlayerModalProps = {
-  track?: Track;
-};
 
 const artist = artists[0];
 
-export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
-  ({ track }, ref) => {
+export const PlayerModal = memo(
+  forwardRef<BottomSheet>((props, ref) => {
     const queueSheetRef = useRef<BottomSheet>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+    const activeTrack = useActiveTrack();
+
     const imageColors = usePlayerBackground(
-      track?.image ?? unknownTrackImageUrl
+      activeTrack?.artwork ?? unknownTrackImageUrl
     );
 
     const handleOpenPlayerQueue = useCallback(() => {
@@ -96,7 +97,9 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
                 {/* Artwork */}
                 <View style={styles.artworkContainer}>
                   <FastImage
-                    source={{ uri: track?.image ?? unknownTrackImageUrl }}
+                    source={{
+                      uri: activeTrack?.artwork ?? unknownTrackImageUrl,
+                    }}
                     style={styles.artwork}
                   />
                 </View>
@@ -104,10 +107,21 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
                 {/* Track Info */}
                 <View style={styles.infoContainer}>
                   <View style={styles.infoTextContainer}>
-                    <Text style={styles.infoTitle}>{track?.title}</Text>
-                    <Text style={styles.infoSubtitle}>{track?.artist}</Text>
+                    <MovingText
+                      text={decode(activeTrack?.title)}
+                      style={styles.infoTitle}
+                      animationThreshold={20}
+                    />
+                    <MovingText
+                      text={activeTrack?.artist ?? "Unknown Artist"}
+                      style={styles.infoSubtitle}
+                      animationThreshold={20}
+                    />
                   </View>
-                  <TouchableOpacity activeOpacity={0.7}>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={{ marginLeft: wp(3) }}
+                  >
                     <Ionicons
                       name="heart-outline"
                       size={26}
@@ -129,7 +143,7 @@ export const PlayerModal = forwardRef<BottomSheet, PlayerModalProps>(
         <PlayerQueue ref={queueSheetRef} />
       </>
     );
-  }
+  })
 );
 
 const styles = StyleSheet.create({
@@ -156,6 +170,7 @@ const styles = StyleSheet.create({
   },
   infoTextContainer: {
     flex: 1,
+    overflow: "hidden",
   },
   infoTitle: {
     color: colors.text.primary,

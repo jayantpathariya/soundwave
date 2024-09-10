@@ -22,8 +22,6 @@ export function TrackItem({ track }: TrackItemProps) {
   const { playing } = useIsPlaying();
   const isActiveTrack = useActiveTrack()?.id === track.id;
 
-  console.log({ isActiveTrack });
-
   const handlePlayTrack = async () => {
     await TrackPlayer.add([createTrack(track)]);
     await TrackPlayer.play();

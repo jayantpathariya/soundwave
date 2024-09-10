@@ -36,8 +36,8 @@ export function Player() {
 
   return (
     <>
-      <FloatingPlayer track={track} onPress={handleOpenPlayer} />
-      <PlayerModal ref={bottomSheetRef} track={track} />
+      <FloatingPlayer onPress={handleOpenPlayer} />
+      <PlayerModal ref={bottomSheetRef} />
     </>
   );
 }
