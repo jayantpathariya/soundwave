@@ -5,11 +5,16 @@ import { unknownTrackImageUrl } from "@/constants/images";
 import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import { PlaylistType } from "@/types";
+import type { Playlist } from "@/types/playlist";
 
-type PlaylistCardProps = PlaylistType;
+type PlaylistCardProps = Playlist;
 
-export function PlaylistCard({ title, image, id }: PlaylistCardProps) {
+export function PlaylistCard({
+  id,
+  title,
+  image,
+  description,
+}: PlaylistCardProps) {
   const router = useRouter();
   const segments = useSegments();
 
@@ -29,13 +34,15 @@ export function PlaylistCard({ title, image, id }: PlaylistCardProps) {
       onPress={handleNavigate}
     >
       <Image
-        source={{ uri: image ?? unknownTrackImageUrl }}
+        source={{ uri: image[1].url ?? unknownTrackImageUrl }}
         style={styles.image}
       />
       <Text numberOfLines={1} style={styles.title}>
         {title}
       </Text>
-      <Text style={styles.subtitle}>Playlist</Text>
+      <Text numberOfLines={1} style={styles.subtitle}>
+        {description}
+      </Text>
     </TouchableOpacity>
   );
 }

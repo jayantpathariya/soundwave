@@ -2,32 +2,32 @@ import { FlatList, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import { PlaylistType } from "@/types";
-import { PlaylistCard } from "./playlist-card";
+import type { Playlist as PlaylistType } from "@/types/playlist";
 
 type PlaylistProps = {
   title: string;
   playlists: PlaylistType[];
   style?: ViewStyle;
+  renderItem: (item: PlaylistType) => JSX.Element;
 };
-
-// const ITEM_WIDTH = wp(43.5);
-// const ITEM_SPACING = wp(3);
 
 const ItemSeparatorComponent = () => <View style={styles.separator} />;
 
-export function Playlist({ title, playlists, style }: PlaylistProps) {
+export function Playlist({
+  title,
+  playlists,
+  style,
+  renderItem,
+}: PlaylistProps) {
   return (
     <View style={style}>
       <Text style={styles.title}>{title}</Text>
       <FlatList
         data={playlists}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <PlaylistCard {...item} />}
+        renderItem={({ item }) => renderItem(item)}
         ItemSeparatorComponent={ItemSeparatorComponent}
         horizontal
-        // snapToInterval={ITEM_WIDTH + ITEM_SPACING}
-        // decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
       />
     </View>

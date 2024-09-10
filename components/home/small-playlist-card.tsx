@@ -5,9 +5,9 @@ import { unknownTrackImageUrl } from "@/constants/images";
 import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import { PlaylistType } from "@/types";
+import type { Playlist } from "@/types/playlist";
 
-type SmallPlaylistCardProps = PlaylistType;
+type SmallPlaylistCardProps = Playlist;
 
 export function SmallPlaylistCard({
   title,
@@ -33,7 +33,7 @@ export function SmallPlaylistCard({
       onPress={handleNavigate}
     >
       <Image
-        source={{ uri: image ?? unknownTrackImageUrl }}
+        source={{ uri: image[1].url ?? unknownTrackImageUrl }}
         style={styles.image}
       />
       <Text numberOfLines={1} style={styles.title}>

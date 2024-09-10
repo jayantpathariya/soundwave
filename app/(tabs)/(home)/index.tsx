@@ -1,24 +1,33 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 import { filters } from "@/assets/data/filters";
-import { playlists } from "@/assets/data/playlists";
 import { Filters } from "@/components/home/filters";
 import { Header } from "@/components/home/header";
 import { Playlist } from "@/components/home/playlist";
-import { SmallPlaylist } from "@/components/home/small-playlist";
+import { PlaylistCard } from "@/components/home/playlist-card";
+import { SmallPlaylistCard } from "@/components/home/small-playlist-card";
 import { ScreenWrapper } from "@/components/screen-wrapper";
 import { defaultStyles } from "@/constants/styles";
 import { colors } from "@/constants/tokens";
+import { useGetHomeData } from "@/hooks/api/home/use-get-home-data";
 import { wp } from "@/lib/utils";
 
 export default function HomeScreen() {
   const [activeFilterId, setActiveFilterId] = useState<string>(filters[0].id);
 
+  const { data, isLoading } = useGetHomeData();
+
   const handleFilterChange = (filterId: string) => {
     setActiveFilterId(filterId);
   };
+
+  if (isLoading) {
+    return null;
+  }
+
+  console.log(data);
 
   return (
     <ScreenWrapper>
@@ -31,28 +40,39 @@ export default function HomeScreen() {
         />
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => {
+          if (
+            item.key === "newTrending" ||
+            item.key === "newAlbums" ||
+            item.key === "topPlaylists" ||
+            item.key === "cityMod"
+          ) {
+            return (
+              <Playlist
+                playlists={item.items}
+                title={item.title}
+                renderItem={(item) => <PlaylistCard {...item} />}
+                style={styles.playlist}
+              />
+            );
+          } else {
+            return (
+              <Playlist
+                playlists={item.items}
+                title={item.title}
+                renderItem={(item) => <SmallPlaylistCard {...item} />}
+                style={styles.playlist}
+              />
+            );
+          }
+        }}
         style={defaultStyles.container}
         contentContainerStyle={defaultStyles.paddingBottom}
-      >
-        <SmallPlaylist playlists={playlists} title="Recently played" />
-        <Playlist
-          playlists={playlists}
-          title="Mixes for you"
-          style={{
-            marginVertical: wp(4),
-          }}
-        />
-        <SmallPlaylist playlists={playlists} title="New releases" />
-        <Playlist
-          playlists={playlists}
-          title="Top playlists"
-          style={{
-            marginTop: wp(4),
-          }}
-        />
-      </ScrollView>
+        // ItemSeparatorComponent={ItemSeparatorComponent}
+      />
     </ScreenWrapper>
   );
 }
@@ -61,5 +81,8 @@ const styles = StyleSheet.create({
   header: {
     ...defaultStyles.paddingHorizontal,
     backgroundColor: colors.background,
+  },
+  playlist: {
+    marginVertical: wp(2),
   },
 });
