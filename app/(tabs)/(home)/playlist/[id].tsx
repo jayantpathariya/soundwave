@@ -1,5 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 
+import { Loader } from "@/components/loader";
 import { Playlist } from "@/components/playlist";
 import { useGetPlaylist } from "@/hooks/api/playlist/use-get-playlist";
 
@@ -11,7 +12,7 @@ export default function PlaylistScreen() {
   const { data, isLoading } = useGetPlaylist(id as string);
 
   if (isLoading || !data) {
-    return null;
+    return <Loader />;
   }
 
   return <Playlist playlist={data} />;

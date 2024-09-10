@@ -8,6 +8,7 @@ import { Header } from "@/components/home/header";
 import { Playlist } from "@/components/home/playlist";
 import { PlaylistCard } from "@/components/home/playlist-card";
 import { SmallPlaylistCard } from "@/components/home/small-playlist-card";
+import { Loader } from "@/components/loader";
 import { ScreenWrapper } from "@/components/screen-wrapper";
 import { defaultStyles } from "@/constants/styles";
 import { colors } from "@/constants/tokens";
@@ -24,10 +25,8 @@ export default function HomeScreen() {
   };
 
   if (isLoading) {
-    return null;
+    return <Loader />;
   }
-
-  console.log(data);
 
   return (
     <ScreenWrapper>
