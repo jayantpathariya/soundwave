@@ -1,19 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { decode } from "html-entities";
+import { memo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
+import TrackPlayer, {
+  useActiveTrack,
+  useIsPlaying,
+  useProgress,
+} from "react-native-track-player";
 
 import { MovingText } from "@/components/moving-text";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
+import { useLastActiveTrack } from "@/hooks/use-last-active-track";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
-import { LinearGradient } from "expo-linear-gradient";
-import { memo } from "react";
-import TrackPlayer, {
-  useActiveTrack,
-  useIsPlaying,
-} from "react-native-track-player";
 
 type FloatingPlayerProps = {
   onPress: () => void;
@@ -21,15 +23,21 @@ type FloatingPlayerProps = {
 
 export const FloatingPlayer = memo(({ onPress }: FloatingPlayerProps) => {
   const activeTrack = useActiveTrack();
+  const lastActiveTrack = useLastActiveTrack();
+  const { position, duration } = useProgress(1000);
   const { playing } = useIsPlaying();
 
+  const displayedTrack = activeTrack ?? lastActiveTrack;
+
+  const progress = duration > 0 ? (position / duration) * 100 : 0;
+
   const imageColors = usePlayerBackground(
-    activeTrack?.artwork ?? unknownTrackImageUrl
+    displayedTrack?.artwork ?? unknownTrackImageUrl
   );
 
   console.log("FloatingPlayer render");
 
-  if (!activeTrack) {
+  if (!displayedTrack) {
     return null;
   }
 
@@ -57,17 +65,17 @@ export const FloatingPlayer = memo(({ onPress }: FloatingPlayerProps) => {
         >
           <View style={styles.infoContainer}>
             <FastImage
-              source={{ uri: activeTrack?.artwork ?? unknownTrackImageUrl }}
+              source={{ uri: displayedTrack?.artwork ?? unknownTrackImageUrl }}
               style={styles.image}
             />
             <View style={styles.textContainer}>
               <MovingText
                 style={styles.title}
-                text={decode(activeTrack?.title) ?? "Unknown Title"}
-                animationThreshold={20}
+                text={decode(displayedTrack?.title) ?? "Unknown Title"}
+                animationThreshold={25}
               />
               <Text numberOfLines={1} style={styles.artist}>
-                {activeTrack?.artist}
+                {displayedTrack?.artist}
               </Text>
             </View>
           </View>
@@ -85,6 +93,9 @@ export const FloatingPlayer = memo(({ onPress }: FloatingPlayerProps) => {
               color={colors.text.primary}
             />
           </TouchableOpacity>
+          <View style={styles.progressBarContainer}>
+            <View style={[styles.progressBar, { width: `${progress}%` }]} />
+          </View>
         </TouchableOpacity>
       </LinearGradient>
     </View>
@@ -118,6 +129,7 @@ const styles = StyleSheet.create({
   image: {
     width: wp(14),
     aspectRatio: 1,
+    borderRadius: wp(1.5),
   },
   textContainer: {
     flex: 1,
@@ -132,5 +144,17 @@ const styles = StyleSheet.create({
   artist: {
     color: colors.text.secondary,
     fontSize: fontSizes.sm,
+  },
+  progressBarContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: wp(2),
+    right: wp(2),
+    height: wp(0.5),
+    backgroundColor: colors.transparent,
+  },
+  progressBar: {
+    height: "100%",
+    backgroundColor: colors.icon.primary,
   },
 });

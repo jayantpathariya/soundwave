@@ -28,6 +28,7 @@ import { ScreenWrapper } from "@/components/screen-wrapper";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
+import { useLastActiveTrack } from "@/hooks/use-last-active-track";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
 
@@ -39,9 +40,12 @@ export const PlayerModal = memo(
     const [isSheetOpen, setIsSheetOpen] = useState(false);
 
     const activeTrack = useActiveTrack();
+    const lastActiveTrack = useLastActiveTrack();
+
+    const displayedTrack = activeTrack ?? lastActiveTrack;
 
     const imageColors = usePlayerBackground(
-      activeTrack?.artwork ?? unknownTrackImageUrl
+      displayedTrack?.artwork ?? unknownTrackImageUrl
     );
 
     const handleOpenPlayerQueue = useCallback(() => {
@@ -98,7 +102,7 @@ export const PlayerModal = memo(
                 <View style={styles.artworkContainer}>
                   <FastImage
                     source={{
-                      uri: activeTrack?.artwork ?? unknownTrackImageUrl,
+                      uri: displayedTrack?.artwork ?? unknownTrackImageUrl,
                     }}
                     style={styles.artwork}
                   />
@@ -108,12 +112,12 @@ export const PlayerModal = memo(
                 <View style={styles.infoContainer}>
                   <View style={styles.infoTextContainer}>
                     <MovingText
-                      text={decode(activeTrack?.title)}
+                      text={decode(displayedTrack?.title)}
                       style={styles.infoTitle}
                       animationThreshold={20}
                     />
                     <MovingText
-                      text={activeTrack?.artist ?? "Unknown Artist"}
+                      text={displayedTrack?.artist ?? "Unknown Artist"}
                       style={styles.infoSubtitle}
                       animationThreshold={20}
                     />
