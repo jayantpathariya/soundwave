@@ -35,8 +35,6 @@ export const FloatingPlayer = memo(({ onPress }: FloatingPlayerProps) => {
     displayedTrack?.artwork ?? unknownTrackImageUrl
   );
 
-  console.log("FloatingPlayer render");
-
   if (!displayedTrack) {
     return null;
   }

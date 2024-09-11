@@ -1,8 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
+import LoaderKit from "react-native-loader-kit";
+import { Track } from "react-native-track-player";
 
-import { Track } from "@/assets/data/tracks";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
@@ -11,27 +12,43 @@ type PlayerQueueItemProps = {
   track: Track;
   nowPlaying?: boolean;
   index?: number;
+  OnTrackSelect?: (track: Track) => void;
+  isActiveTrack?: boolean;
 };
 
 export function PlayerQueueItem({
+  index,
   track,
   nowPlaying,
-  index,
+  OnTrackSelect,
+  isActiveTrack,
 }: PlayerQueueItemProps) {
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.7}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={nowPlaying ? 1 : 0.7}
+      onPress={() => OnTrackSelect?.(track)}
+    >
       {nowPlaying ? (
         <View style={styles.imageContainer}>
           <FastImage
             source={{
-              uri: track.image || unknownTrackImageUrl,
+              uri: track.artwork || unknownTrackImageUrl,
             }}
             style={styles.image}
           />
         </View>
       ) : (
         <View style={styles.imageContainer}>
-          <Text style={styles.index}>{index}</Text>
+          {isActiveTrack ? (
+            <LoaderKit
+              name="LineScaleParty"
+              color={colors.icon.primary}
+              style={styles.trackPlayingIcon}
+            />
+          ) : (
+            <Text style={styles.index}>{index}</Text>
+          )}
         </View>
       )}
       <View style={styles.textContainer}>
@@ -76,6 +93,13 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     fontSize: fontSizes.md,
     fontWeight: "500",
+  },
+  trackPlayingIcon: {
+    width: wp(5),
+    aspectRatio: 1,
+    position: "absolute",
+    top: wp(4.5),
+    left: wp(4),
   },
   textContainer: {
     flex: 1,

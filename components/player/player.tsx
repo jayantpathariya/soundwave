@@ -2,11 +2,8 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BackHandler } from "react-native";
 
-import { tracks } from "@/assets/data/tracks";
 import { FloatingPlayer } from "./floating-player";
 import { PlayerModal } from "./player-modal";
-
-const track = tracks[2];
 
 export function Player() {
   const bottomSheetRef = useRef<BottomSheet>(null);
