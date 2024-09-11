@@ -7,20 +7,27 @@ import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 import { Song } from "@/types/song";
 import { Ionicons } from "@expo/vector-icons";
+import { memo } from "react";
 import { MovingText } from "./moving-text";
 
 type TrackItemProps = {
   track: Song;
+  onTrackSelect: (track: Song) => void;
 };
 
-export function TrackItem({ track }: TrackItemProps) {
+export const TrackItem = memo(({ track, onTrackSelect }: TrackItemProps) => {
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.7}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.7}
+      onPress={() => onTrackSelect(track)}
+    >
       <View style={styles.infoContainer}>
         <FastImage
           source={{ uri: track.image[1].url ?? unknownTrackImageUrl }}
           style={styles.image}
         />
+
         <View style={styles.textContainer}>
           <MovingText
             style={styles.title}
@@ -39,7 +46,9 @@ export function TrackItem({ track }: TrackItemProps) {
       </TouchableOpacity>
     </TouchableOpacity>
   );
-}
+});
+
+TrackItem.displayName = "TrackItem";
 
 const styles = StyleSheet.create({
   container: {

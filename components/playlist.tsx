@@ -8,13 +8,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import TrackPlayer from "react-native-track-player";
 
 import { unknownTrackImageUrl } from "@/constants/images";
 import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
-import { wp } from "@/lib/utils";
+import { createTrack, wp } from "@/lib/utils";
 import type { Playlist as PlaylistType } from "@/types/playlist";
+import { Song } from "@/types/song";
+import { memo } from "react";
 import { PlaylistHeader } from "./playlist-header";
 import { ScreenWrapper } from "./screen-wrapper";
 import { TrackItem } from "./track-item";
@@ -25,12 +28,28 @@ type PlaylistProps = {
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export function Playlist({ playlist }: PlaylistProps) {
+export const Playlist = memo(({ playlist }: PlaylistProps) => {
   const imageColors = usePlayerBackground(
     playlist.image[1].url ?? unknownTrackImageUrl
   );
 
   const router = useRouter();
+
+  const handleTrackSelect = async (selectedTrack: Song) => {
+    const trackIndex = playlist.songs.findIndex(
+      (track) => track.id === selectedTrack.id
+    );
+
+    const beforeTracks = playlist.songs.slice(0, trackIndex);
+    const afterTracks = playlist.songs.slice(trackIndex + 1);
+
+    await TrackPlayer.reset();
+    await TrackPlayer.add(createTrack(selectedTrack));
+    await TrackPlayer.add(afterTracks.map(createTrack));
+    await TrackPlayer.add(beforeTracks.map(createTrack));
+
+    await TrackPlayer.play();
+  };
 
   return (
     <LinearGradient
@@ -52,14 +71,24 @@ export function Playlist({ playlist }: PlaylistProps) {
           ListHeaderComponent={<PlaylistHeader playlist={playlist} />}
           data={playlist.songs}
           ItemSeparatorComponent={ItemSeparator}
-          renderItem={({ item }) => <TrackItem track={item} />}
+          renderItem={({ item }) => (
+            // <TrackItem
+            //   track={item}
+            //   onTrackSelect={handleTrackSelect}
+            //   isActiveTrack={activeTrack?.id === item.id}
+            //   playing={playing}
+            // />
+            <TrackItem track={item} onTrackSelect={handleTrackSelect} />
+          )}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={defaultStyles.paddingBottom}
         />
       </ScreenWrapper>
     </LinearGradient>
   );
-}
+});
+
+Playlist.displayName = "Playlist";
 
 const styles = StyleSheet.create({
   wrapper: {

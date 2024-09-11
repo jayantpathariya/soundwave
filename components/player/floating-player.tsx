@@ -24,8 +24,10 @@ export const FloatingPlayer = memo(({ onPress }: FloatingPlayerProps) => {
   const { playing } = useIsPlaying();
 
   const imageColors = usePlayerBackground(
-    activeTrack?.image ?? unknownTrackImageUrl
+    activeTrack?.artwork ?? unknownTrackImageUrl
   );
+
+  console.log("FloatingPlayer render");
 
   if (!activeTrack) {
     return null;

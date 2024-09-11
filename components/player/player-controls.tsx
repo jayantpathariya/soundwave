@@ -16,12 +16,23 @@ export function PlayerControls() {
     }
   };
 
+  const handleSkipTrack = async (direction: "next" | "previous") => {
+    if (direction === "next") {
+      await TrackPlayer.skipToNext();
+    } else {
+      await TrackPlayer.skipToPrevious();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity activeOpacity={0.7}>
         <Ionicons name="shuffle" size={30} color={colors.icon.primary} />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => handleSkipTrack("previous")}
+      >
         <Ionicons
           name="play-skip-back-sharp"
           size={34}
@@ -40,7 +51,10 @@ export function PlayerControls() {
           style={[!playing && { transform: [{ translateX: wp(1) }] }]}
         />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => handleSkipTrack("next")}
+      >
         <Ionicons
           name="play-skip-forward-sharp"
           size={34}
