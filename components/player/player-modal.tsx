@@ -15,13 +15,11 @@ import { BackHandler, StyleSheet, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { useActiveTrack } from "react-native-track-player";
 
-import { artists } from "@/assets/data/aritst";
 import { MovingText } from "@/components/moving-text";
 import { PlayerActionsButtons } from "@/components/player/player-action-buttons";
 import { PlayerArtist } from "@/components/player/player-artist";
 import { PlayerControls } from "@/components/player/player-controls";
 import { PlayerHeader } from "@/components/player/player-header";
-import { PlayerLyrics } from "@/components/player/player-lyrics";
 import { PlayerProgressBar } from "@/components/player/player-progress-bar";
 import { PlayerQueue } from "@/components/player/player-queue";
 import { ScreenWrapper } from "@/components/screen-wrapper";
@@ -31,8 +29,6 @@ import { colors, fontSizes } from "@/constants/tokens";
 import { useLastActiveTrack } from "@/hooks/use-last-active-track";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
-
-const artist = artists[0];
 
 export const PlayerModal = memo(
   forwardRef<BottomSheet>((props, ref) => {
@@ -138,8 +134,17 @@ export const PlayerModal = memo(
                 <PlayerActionsButtons
                   onOpenPlayerQueue={handleOpenPlayerQueue}
                 />
-                <PlayerLyrics gradientColors={imageColors} />
-                <PlayerArtist artist={artist} />
+                {/* {activeTrack?.hasLyrics && (
+                  <PlayerLyrics
+                    gradientColors={imageColors}
+                    songId={activeTrack?.id}
+                    duration={activeTrack?.duration}
+                  />
+                )} */}
+                <PlayerArtist
+                  artistArtwork={activeTrack?.artistArtwork}
+                  artistNames={activeTrack?.artist}
+                />
               </ScreenWrapper>
             </BottomSheetScrollView>
           </LinearGradient>

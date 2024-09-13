@@ -31,6 +31,16 @@ export type Song = {
   downloadUrl: DownloadLink[];
 };
 
+export type SongLyrics = {
+  lyrics: string;
+  lyrics_copyright: string;
+  snippet: string;
+};
+
 export type SongResponse = {
   data: Song[];
+};
+
+export type SongLyricsResponse = {
+  data: SongLyrics;
 };

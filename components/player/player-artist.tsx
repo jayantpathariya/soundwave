@@ -1,31 +1,29 @@
 import { StyleSheet, Text, View } from "react-native";
 import FastImage from "react-native-fast-image";
-import { useActiveTrack } from "react-native-track-player";
 
-import { Artist } from "@/assets/data/aritst";
 import { unknownArtistImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 
 type PlayerArtistProps = {
-  artist: Artist;
+  artistNames?: string;
+  artistArtwork?: string;
 };
 
-export function PlayerArtist({ artist }: PlayerArtistProps) {
-  const activeTrack = useActiveTrack();
-
+export function PlayerArtist({
+  artistNames,
+  artistArtwork,
+}: PlayerArtistProps) {
   return (
     <View style={styles.container}>
       <FastImage
-        source={{ uri: unknownArtistImageUrl }}
+        source={{ uri: artistArtwork ?? unknownArtistImageUrl }}
         style={styles.image}
         resizeMode="cover"
       />
       <Text style={styles.title}>Artist</Text>
       <View style={styles.bottomText}>
-        <Text style={styles.artist}>
-          {activeTrack?.artist ?? "Unknown Artist"}
-        </Text>
+        <Text style={styles.artist}>{artistNames ?? "Unknown Artist"}</Text>
         <Text style={styles.followers}>55.5K followers</Text>
       </View>
     </View>

@@ -31,6 +31,10 @@ export const createTrack = (song: Song): Track => {
     album: song.album.title,
     date: new Date(song.releaseDate ?? "1970-01-01").toISOString(),
     artwork: song.image.find((link) => link.quality === "500x500")?.url,
+    artistArtwork: song.artists.primary[0].image.find(
+      (link) => link.quality === "500x500"
+    )?.url,
+    hasLyrics: song.hasLyrics,
   };
 
   return track;

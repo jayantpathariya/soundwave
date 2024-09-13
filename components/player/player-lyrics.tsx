@@ -3,13 +3,29 @@ import { StyleSheet, Text } from "react-native";
 import { AndroidImageColors } from "react-native-image-colors/build/types";
 
 import { colors, fontSizes } from "@/constants/tokens";
+import { useGetSongLyrics } from "@/hooks/api/use-get-song-lyrics";
 import { wp } from "@/lib/utils";
+import { decode } from "html-entities";
 
 type PlayerLyricsProps = {
   gradientColors: AndroidImageColors | null;
+  songId: string;
+  duration?: number;
 };
 
-export function PlayerLyrics({ gradientColors }: PlayerLyricsProps) {
+export function PlayerLyrics({
+  gradientColors,
+  songId,
+  duration,
+}: PlayerLyricsProps) {
+  const { data, isLoading } = useGetSongLyrics(songId, {
+    enabled: !!songId,
+  });
+
+  if (isLoading || !data) return null;
+
+  const lyrics = decode(data.lyrics).split("<br>");
+
   return (
     <LinearGradient
       colors={
@@ -21,9 +37,13 @@ export function PlayerLyrics({ gradientColors }: PlayerLyricsProps) {
     >
       <Text style={styles.title}>Lyrics</Text>
       <Text style={styles.text}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Error et libero
-        dolores neque! Quos ipsam ab exercitationem voluptates alias hic quis,
-        illo at quasi recusandae enim, numquam, quisquam facere labore.
+        {lyrics.map((line, index) => (
+          <Text key={index} style={styles.text}>
+            {line.trim()}
+            {/* Add a new line after each line except the last one */}
+            {index !== lyrics.length - 1 && "\n"}
+          </Text>
+        ))}
       </Text>
     </LinearGradient>
   );
