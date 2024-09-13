@@ -16,6 +16,12 @@ export default function HomeLayout() {
         }}
       />
       <Stack.Screen
+        name="album/[id]"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="settings"
         options={{
           headerShown: false,

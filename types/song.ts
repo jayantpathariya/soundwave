@@ -14,7 +14,7 @@ export type Song = {
   language: string;
   hasLyrics: boolean;
   lyricsId?: string | null;
-  lyrics?: string; // TODO: Add lyrics type
+  lyrics?: string;
   url: string;
   copyright?: string | null;
   album: {

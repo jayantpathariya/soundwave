@@ -154,5 +154,6 @@ const styles = StyleSheet.create({
   progressBar: {
     height: "100%",
     backgroundColor: colors.icon.primary,
+    borderRadius: wp(50),
   },
 });

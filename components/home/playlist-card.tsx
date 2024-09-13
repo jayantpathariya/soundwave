@@ -14,12 +14,17 @@ export function PlaylistCard({
   title,
   image,
   description,
+  type,
 }: PlaylistCardProps) {
   const router = useRouter();
   const segments = useSegments();
 
   const handleNavigate = () => {
-    const path = `/${generatePath(segments)}/playlist/[id]`;
+    let path = `/${generatePath(segments)}/playlist/[id]`;
+
+    if (type === "album") {
+      path = `/${generatePath(segments)}/album/[id]`;
+    }
 
     router.navigate({
       pathname: path as any,
@@ -34,7 +39,7 @@ export function PlaylistCard({
       onPress={handleNavigate}
     >
       <Image
-        source={{ uri: image[1].url ?? unknownTrackImageUrl }}
+        source={{ uri: image[2].url ?? unknownTrackImageUrl }}
         style={styles.image}
       />
       <Text numberOfLines={1} style={styles.title}>

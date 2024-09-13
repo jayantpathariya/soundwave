@@ -5,10 +5,11 @@ import FastImage from "react-native-fast-image";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
+import type { Album } from "@/types/album";
 import type { Playlist } from "@/types/playlist";
 
 type PlaylistHeaderProps = {
-  playlist: Playlist;
+  playlist: Playlist | Album;
 };
 
 export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
@@ -17,7 +18,7 @@ export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
       <View style={styles.infoContainer}>
         <View style={styles.artworkContainer}>
           <FastImage
-            source={{ uri: playlist.image[1].url ?? unknownTrackImageUrl }}
+            source={{ uri: playlist.image[2].url ?? unknownTrackImageUrl }}
             resizeMode="cover"
             style={styles.artwork}
           />

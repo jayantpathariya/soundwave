@@ -13,12 +13,17 @@ export function SmallPlaylistCard({
   title,
   image,
   id,
+  type,
 }: SmallPlaylistCardProps) {
   const router = useRouter();
   const segments = useSegments();
 
   const handleNavigate = () => {
-    const path = `/${generatePath(segments)}/playlist/[id]`;
+    let path = `/${generatePath(segments)}/playlist/[id]`;
+
+    if (type === "album") {
+      path = `/${generatePath(segments)}/album/[id]`;
+    }
 
     router.navigate({
       pathname: path as any,
