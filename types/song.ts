@@ -30,3 +30,7 @@ export type Song = {
   image: DownloadLink[];
   downloadUrl: DownloadLink[];
 };
+
+export type SongResponse = {
+  data: Song[];
+};
