@@ -7,10 +7,12 @@ import filters from "@/assets/data/filters";
 import { Filters } from "@/components/home/filters";
 import { Loader } from "@/components/loader";
 import { ScreenWrapper } from "@/components/screen-wrapper";
+import { SearchAlbumList } from "@/components/search-term/search-album-list";
 import { SearchAllList } from "@/components/search-term/search-all-list";
 import { SearchBar } from "@/components/search-term/search-bar";
 import { SearchSongList } from "@/components/search-term/search-song-list";
 import { colors, fontSizes } from "@/constants/tokens";
+import { useGetSearchAlbums } from "@/hooks/api/search/use-get-search-albums";
 import { useGetSearchAll } from "@/hooks/api/search/use-get-search-all";
 import { useGetSearchSongs } from "@/hooks/api/search/use-get-search-songs";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -27,6 +29,12 @@ export default function SearchTerm() {
   const { data: searchSongsData, isLoading: isSearchSongsLoading } =
     useGetSearchSongs(debouncedSearchQuery, {
       enabled: activeFilter === "songs",
+      page: 1,
+      limit: 20,
+    });
+  const { data: searchAlbumsData, isLoading: isSearchAlbumsLoading } =
+    useGetSearchAlbums(debouncedSearchQuery, {
+      enabled: activeFilter === "albums",
       page: 1,
       limit: 20,
     });
@@ -48,6 +56,12 @@ export default function SearchTerm() {
       if (!searchSongsData) return <EmptySearchList />;
 
       return <SearchSongList tracks={searchSongsData.result} />;
+    } else if (activeFilter === "albums") {
+      if (isSearchAlbumsLoading) return <Loader />;
+
+      if (!searchAlbumsData) return <EmptySearchList />;
+
+      return <SearchAlbumList tracks={searchAlbumsData.results} />;
     }
   };
 

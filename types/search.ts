@@ -1,5 +1,6 @@
 import { DownloadLink } from "@/types/common";
 import { Song } from "@/types/song";
+import { Artist } from "./artist";
 
 type SearchAllAlbum = {
   id: string;
@@ -75,5 +76,31 @@ export type SearchSongResponse = {
     total: number;
     start: number;
     result: Song[];
+  };
+};
+
+export type SearchAlbumsResultItem = {
+  id: string;
+  title: string;
+  description: string;
+  year: number | null;
+  type: string;
+  playCount: number | null;
+  language: string;
+  explicitContent: boolean;
+  artists: {
+    primary: Artist[];
+    featured: Artist[];
+    all: Artist[];
+  };
+  url: string;
+  image: DownloadLink[];
+};
+
+export type SearchAlbumResponse = {
+  data: {
+    total: number;
+    start: number;
+    results: SearchAlbumsResultItem[];
   };
 };

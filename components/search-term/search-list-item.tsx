@@ -12,11 +12,11 @@ import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { getSong } from "@/hooks/api/use-get-song";
 import { createArtistString, createTrack, wp } from "@/lib/utils";
-import type { SearchAll } from "@/types/search";
+import type { SearchAlbumsResultItem, SearchAll } from "@/types/search";
 import type { Song } from "@/types/song";
 
 type TrackItemProps = {
-  item: SearchAll | Song;
+  item: SearchAll | Song | SearchAlbumsResultItem;
 };
 
 export const SearchListItem = memo(({ item }: TrackItemProps) => {
@@ -46,11 +46,12 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
     });
   };
 
-  console.log("rendering");
+  console.log({ item });
 
   const renderDescription = () => {
     if ("description" in item) {
-      return item.description;
+      if (!!item.description) return item.description;
+      return item.type;
     } else {
       return createArtistString(item?.artists?.primary);
     }
@@ -145,5 +146,6 @@ const styles = StyleSheet.create({
   artist: {
     fontSize: fontSizes.sm,
     color: colors.text.secondary,
+    textTransform: "capitalize",
   },
 });
