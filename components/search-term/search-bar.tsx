@@ -31,10 +31,14 @@ export function SearchBar({ searchQuery, setSearchQuery }: SearchBarProps) {
           placeholderTextColor={colors.text.secondary}
           value={searchQuery}
           onChangeText={setSearchQuery}
-          autoFocus
+          // autoFocus // TODO: Turn back on autoFocus
         />
-        {searchQuery && (
-          <TouchableOpacity activeOpacity={0.7} style={styles.clearBtn}>
+        {searchQuery.length > 0 && (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.clearBtn}
+            onPress={() => setSearchQuery("")}
+          >
             <Ionicons name="close" size={26} color={colors.text.secondary} />
           </TouchableOpacity>
         )}

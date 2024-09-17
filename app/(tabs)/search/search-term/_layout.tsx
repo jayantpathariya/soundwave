@@ -21,6 +21,12 @@ export default function SearchTermLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="album/[id]"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

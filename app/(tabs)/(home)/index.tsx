@@ -1,9 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
-import { filters } from "@/assets/data/filters";
-import { Filters } from "@/components/home/filters";
 import { Header } from "@/components/home/header";
 import { Playlist } from "@/components/home/playlist";
 import { PlaylistCard } from "@/components/home/playlist-card";
@@ -16,13 +13,7 @@ import { useGetHomeData } from "@/hooks/api/home/use-get-home-data";
 import { wp } from "@/lib/utils";
 
 export default function HomeScreen() {
-  const [activeFilterId, setActiveFilterId] = useState<string>(filters[0].id);
-
-  const { data, isLoading } = useGetHomeData();
-
-  const handleFilterChange = (filterId: string) => {
-    setActiveFilterId(filterId);
-  };
+  const { data, isLoading, refetch } = useGetHomeData();
 
   if (isLoading) {
     return <Loader />;
@@ -33,15 +24,13 @@ export default function HomeScreen() {
       <StatusBar style="light" />
       <View style={styles.header}>
         <Header />
-        <Filters
-          onFilterChange={handleFilterChange}
-          activeFilterId={activeFilterId}
-        />
       </View>
 
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
+        refreshing={isLoading}
+        onRefresh={refetch}
         renderItem={({ item }) => {
           if (
             item.key === "newTrending" ||
@@ -80,6 +69,7 @@ const styles = StyleSheet.create({
   header: {
     ...defaultStyles.paddingHorizontal,
     backgroundColor: colors.background,
+    marginBottom: wp(4),
   },
   playlist: {
     marginBottom: wp(4),

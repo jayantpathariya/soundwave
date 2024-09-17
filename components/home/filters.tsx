@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, View } from "react-native";
 
 import filters from "@/assets/data/filters";
+import { defaultStyles } from "@/constants/styles";
 import { wp } from "@/lib/utils";
 import { Chip } from "./chip";
 
@@ -34,7 +35,8 @@ export function Filters({ onFilterChange, activeFilterId }: FiltersProps) {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: wp(4),
+    ...defaultStyles.paddingHorizontal,
+    paddingBottom: wp(4),
   },
   separator: {
     width: wp(2),

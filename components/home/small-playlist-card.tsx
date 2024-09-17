@@ -1,5 +1,5 @@
 import { useRouter, useSegments } from "expo-router";
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import TrackPlayer from "react-native-track-player";
 
 import { unknownTrackImageUrl } from "@/constants/images";
@@ -8,6 +8,7 @@ import { colors, fontSizes } from "@/constants/tokens";
 import { useGetSong } from "@/hooks/api/use-get-song";
 import { createTrack, wp } from "@/lib/utils";
 import type { MiniPlaylist } from "@/types/playlist";
+import FastImage from "react-native-fast-image";
 
 type SmallPlaylistCardProps = MiniPlaylist;
 
@@ -53,8 +54,8 @@ export function SmallPlaylistCard({
       style={styles.container}
       onPress={handleNavigate}
     >
-      <Image
-        source={{ uri: image[1].url ?? unknownTrackImageUrl }}
+      <FastImage
+        source={{ uri: image[1].url ?? unknownTrackImageUrl, priority: "high" }}
         style={styles.image}
       />
       <Text numberOfLines={1} style={styles.title}>
