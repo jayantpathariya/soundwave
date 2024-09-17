@@ -46,8 +46,6 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
     });
   };
 
-  console.log({ item });
-
   const renderDescription = () => {
     if ("description" in item) {
       if (!!item.description) return item.description;
