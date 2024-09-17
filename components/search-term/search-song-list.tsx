@@ -2,19 +2,19 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import { wp } from "@/lib/utils";
 
+import { SearchListItem } from "@/components/search-term/search-list-item";
 import { defaultStyles } from "@/constants/styles";
-import { SearchAll } from "@/types/search";
-import { SearchListItem } from "./search-list-item";
+import { Song } from "@/types/song";
 
 type TracksProps = {
-  tracks?: SearchAll[];
+  tracks: Song[];
 };
 
-export function SearchList({ tracks }: TracksProps) {
+export function SearchSongList({ tracks }: TracksProps) {
   return (
     <FlatList
       data={tracks}
-      keyExtractor={(item) => `${item.id}-${item.description}`}
+      keyExtractor={(item) => `${item.id}-${item.playCount}`}
       renderItem={({ item }) => <SearchListItem item={item} />}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}

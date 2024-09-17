@@ -14,11 +14,11 @@ const getSearchAll = async (query: string) => {
   return response.data;
 };
 
-export const useGetSearchAll = (searchQuery: string) => {
+export const useGetSearchAll = (searchQuery: string, enabled: boolean) => {
   const query = useQuery({
     queryKey: ["search", { searchQuery }],
     queryFn: () => getSearchAll(searchQuery),
-    enabled: !!searchQuery,
+    enabled: !!searchQuery && enabled,
   });
 
   return query;

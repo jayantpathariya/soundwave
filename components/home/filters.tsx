@@ -9,10 +9,10 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 type FiltersProps = {
   onFilterChange: (filterId: string) => void;
-  activeFilterId: string;
+  activeFilter: string;
 };
 
-export function Filters({ onFilterChange, activeFilterId }: FiltersProps) {
+export function Filters({ onFilterChange, activeFilter }: FiltersProps) {
   return (
     <View style={styles.container}>
       <FlatList
@@ -22,7 +22,7 @@ export function Filters({ onFilterChange, activeFilterId }: FiltersProps) {
           <Chip
             {...item}
             onFilterChange={onFilterChange}
-            activeFilterId={activeFilterId}
+            activeFilter={activeFilter}
           />
         )}
         showsHorizontalScrollIndicator={false}

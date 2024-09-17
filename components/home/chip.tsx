@@ -5,18 +5,23 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 type ChipProps = Filter & {
   onFilterChange: (filter: string) => void;
-  activeFilterId: string;
+  activeFilter: string;
 };
 
-export function Chip({ title, id, onFilterChange, activeFilterId }: ChipProps) {
+export function Chip({
+  title,
+  value,
+  onFilterChange,
+  activeFilter,
+}: ChipProps) {
   return (
     <TouchableOpacity
       style={[
         styles.container,
-        activeFilterId === id && { backgroundColor: colors.surface },
+        activeFilter === value && { backgroundColor: colors.surface },
       ]}
       activeOpacity={0.7}
-      onPress={() => onFilterChange(id)}
+      onPress={() => onFilterChange(value)}
     >
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>

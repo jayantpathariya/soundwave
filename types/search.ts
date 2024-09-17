@@ -1,6 +1,7 @@
 import { DownloadLink } from "@/types/common";
+import { Song } from "@/types/song";
 
-type SearchAlbum = {
+type SearchAllAlbum = {
   id: string;
   title: string;
   image: DownloadLink[];
@@ -13,7 +14,7 @@ type SearchAlbum = {
   songIds: string;
 };
 
-type SearchSong = {
+type SearchAllSong = {
   id: string;
   title: string;
   image: DownloadLink[];
@@ -26,7 +27,7 @@ type SearchSong = {
   language: string;
 };
 
-type SearchArtist = {
+type SearchAllArtist = {
   id: string;
   title: string;
   image: DownloadLink[];
@@ -35,7 +36,7 @@ type SearchArtist = {
   position: number;
 };
 
-type SearchPlaylist = {
+type SearchAllPlaylist = {
   id: string;
   title: string;
   image: DownloadLink[];
@@ -45,7 +46,7 @@ type SearchPlaylist = {
   description: string;
 };
 
-type SearchTopQuery = {
+type SearchAllTopQuery = {
   id: string;
   title: string;
   image: DownloadLink[];
@@ -59,12 +60,20 @@ type SearchTopQuery = {
 };
 
 export type SearchAll =
-  | SearchAlbum
-  | SearchSong
-  | SearchArtist
-  | SearchPlaylist
-  | SearchTopQuery;
+  | SearchAllAlbum
+  | SearchAllSong
+  | SearchAllArtist
+  | SearchAllPlaylist
+  | SearchAllTopQuery;
 
 export type SearchResponse = {
   data: SearchAll[];
+};
+
+export type SearchSongResponse = {
+  data: {
+    total: number;
+    start: number;
+    result: Song[];
+  };
 };

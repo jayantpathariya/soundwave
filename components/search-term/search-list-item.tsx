@@ -4,35 +4,24 @@ import { decode } from "html-entities";
 import { memo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
-import LoaderKit from "react-native-loader-kit";
-import TrackPlayer, {
-  useActiveTrack,
-  useIsPlaying,
-} from "react-native-track-player";
+import TrackPlayer from "react-native-track-player";
 
 import { MovingText } from "@/components/moving-text";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
-import { useGetSong } from "@/hooks/api/use-get-song";
-import { createTrack, wp } from "@/lib/utils";
-import { SearchAll } from "@/types/search";
+import { getSong } from "@/hooks/api/use-get-song";
+import { createArtistString, createTrack, wp } from "@/lib/utils";
+import type { SearchAll } from "@/types/search";
+import type { Song } from "@/types/song";
 
 type TrackItemProps = {
-  item: SearchAll;
+  item: SearchAll | Song;
 };
 
 export const SearchListItem = memo(({ item }: TrackItemProps) => {
-  const activeTrack = useActiveTrack();
-  const { playing } = useIsPlaying();
   const router = useRouter();
   const segments = useSegments();
-
-  const { data: song, isLoading } = useGetSong(item.id, {
-    enabled: item.type === "song",
-  });
-
-  const isActive = activeTrack?.id === item.id;
 
   const handlePress = async () => {
     let path = "";
@@ -42,7 +31,7 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
     } else if (item.type === "playlist") {
       path = `/${generatePath(segments)}/playlist/[id]`;
     } else if (item.type === "song") {
-      if (isLoading || !song) return;
+      const song = await getSong(item.id);
 
       await TrackPlayer.reset();
       await TrackPlayer.add(createTrack(song[0]));
@@ -57,6 +46,16 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
     });
   };
 
+  console.log("rendering");
+
+  const renderDescription = () => {
+    if ("description" in item) {
+      return item.description;
+    } else {
+      return createArtistString(item?.artists?.primary);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -67,22 +66,8 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
         <View>
           <FastImage
             source={{ uri: item.image[1].url ?? unknownTrackImageUrl }}
-            style={[styles.image, isActive && { opacity: 0.6 }]}
+            style={[styles.image]}
           />
-          {isActive &&
-            (playing ? (
-              <LoaderKit
-                name="LineScaleParty"
-                style={styles.playingIndicator}
-              />
-            ) : (
-              <Ionicons
-                name="play"
-                size={24}
-                color={colors.icon.primary}
-                style={styles.pauseIndicator}
-              />
-            ))}
         </View>
 
         <View style={styles.textContainer}>
@@ -92,7 +77,7 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
             animationThreshold={25}
           />
           <Text numberOfLines={1} style={styles.artist}>
-            {item.description}
+            {renderDescription()}
           </Text>
         </View>
       </View>

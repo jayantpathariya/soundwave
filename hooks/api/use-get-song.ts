@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import request from "@/lib/request";
 import { SongResponse } from "@/types/song";
 
-const getSong = async (id: string) => {
+export const getSong = async (id: string) => {
   const response = await request<SongResponse>({
     url: `/songs/${id}`,
   });
