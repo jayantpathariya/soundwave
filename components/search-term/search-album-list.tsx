@@ -15,7 +15,7 @@ export function SearchAlbumList({ tracks }: TracksProps) {
     <FlatList
       data={tracks}
       keyExtractor={(item) => `${item.id}-${item.playCount}`}
-      renderItem={({ item }) => <SearchListItem item={item} />}
+      renderItem={({ item }) => <SearchListItem item={item} type="album" />}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
       ListEmptyComponent={

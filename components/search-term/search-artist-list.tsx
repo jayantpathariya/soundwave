@@ -4,18 +4,18 @@ import { wp } from "@/lib/utils";
 
 import { SearchListItem } from "@/components/search-term/search-list-item";
 import { defaultStyles } from "@/constants/styles";
-import { SearchAll } from "@/types/search";
+import { Artist } from "@/types/artist";
 
 type TracksProps = {
-  tracks: SearchAll[];
+  artists: Artist[];
 };
 
-export function SearchAllList({ tracks }: TracksProps) {
+export function SearchArtistList({ artists }: TracksProps) {
   return (
     <FlatList
-      data={tracks}
-      keyExtractor={(item) => `${item.id}-${item.description}`}
-      renderItem={({ item }) => <SearchListItem item={item} type="all" />}
+      data={artists}
+      keyExtractor={(item) => `${item.id}`}
+      renderItem={({ item }) => <SearchListItem item={item} type="artist" />}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
       ListEmptyComponent={

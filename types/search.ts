@@ -104,3 +104,7 @@ export type SearchAlbumResponse = {
     results: SearchAlbumsResultItem[];
   };
 };
+
+export type SearchArtistResponse = {
+  data: { total: number; start: number; results: Artist[] };
+};

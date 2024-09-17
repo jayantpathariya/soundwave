@@ -1,6 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter, useSegments } from "expo-router";
-import { decode } from "html-entities";
 import { memo } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
@@ -12,14 +11,33 @@ import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { getSong } from "@/hooks/api/use-get-song";
 import { createArtistString, createTrack, wp } from "@/lib/utils";
+import type { Artist } from "@/types/artist";
 import type { SearchAlbumsResultItem, SearchAll } from "@/types/search";
 import type { Song } from "@/types/song";
 
-type TrackItemProps = {
-  item: SearchAll | Song | SearchAlbumsResultItem;
-};
+type TrackItemProps =
+  | {
+      type: "all";
+      item: SearchAll;
+    }
+  | {
+      type: "album";
+      item: SearchAlbumsResultItem;
+    }
+  | {
+      type: "song";
+      item: Song;
+    }
+  | {
+      type: "artist";
+      item: Artist;
+    }
+  | {
+      type: "playlist";
+      item: SearchAll;
+    };
 
-export const SearchListItem = memo(({ item }: TrackItemProps) => {
+export const SearchListItem = memo(({ item, type }: TrackItemProps) => {
   const router = useRouter();
   const segments = useSegments();
 
@@ -30,6 +48,8 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
       path = `/${generatePath(segments)}/album/[id]`;
     } else if (item.type === "playlist") {
       path = `/${generatePath(segments)}/playlist/[id]`;
+    } else if (item.type === "artist") {
+      path = `/${generatePath(segments)}/artist/[id]`;
     } else if (item.type === "song") {
       const song = await getSong(item.id);
 
@@ -46,12 +66,23 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
     });
   };
 
-  const renderDescription = () => {
-    if ("description" in item) {
-      if (!!item.description) return item.description;
-      return item.type;
+  const renderTitle = () => {
+    if (type === "artist") {
+      return item.name;
     } else {
+      return item.title;
+    }
+  };
+
+  const renderDescription = () => {
+    if (type === "all") {
+      return item.description;
+    } else if (type === "album") {
+      return item.description;
+    } else if (type === "song") {
       return createArtistString(item?.artists?.primary);
+    } else if (type === "artist") {
+      return item.type;
     }
   };
 
@@ -72,7 +103,7 @@ export const SearchListItem = memo(({ item }: TrackItemProps) => {
         <View style={styles.textContainer}>
           <MovingText
             style={styles.title}
-            text={decode(item.title)}
+            text={renderTitle()}
             animationThreshold={25}
           />
           <Text numberOfLines={1} style={styles.artist}>
