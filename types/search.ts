@@ -108,3 +108,22 @@ export type SearchAlbumResponse = {
 export type SearchArtistResponse = {
   data: { total: number; start: number; results: Artist[] };
 };
+
+export type SearchPlaylistResultItem = {
+  id: string;
+  title: string;
+  type: string;
+  image: DownloadLink[];
+  url: string;
+  songCount: number | null;
+  language: string;
+  explicitContent: boolean;
+};
+
+export type SearchPlaylistResponse = {
+  data: {
+    total: number;
+    start: number;
+    results: SearchPlaylistResultItem[];
+  };
+};

@@ -12,7 +12,11 @@ import { colors, fontSizes } from "@/constants/tokens";
 import { getSong } from "@/hooks/api/use-get-song";
 import { createArtistString, createTrack, wp } from "@/lib/utils";
 import type { Artist } from "@/types/artist";
-import type { SearchAlbumsResultItem, SearchAll } from "@/types/search";
+import type {
+  SearchAlbumsResultItem,
+  SearchAll,
+  SearchPlaylistResultItem,
+} from "@/types/search";
 import type { Song } from "@/types/song";
 
 type TrackItemProps =
@@ -34,7 +38,7 @@ type TrackItemProps =
     }
   | {
       type: "playlist";
-      item: SearchAll;
+      item: SearchPlaylistResultItem;
     };
 
 export const SearchListItem = memo(({ item, type }: TrackItemProps) => {
@@ -81,7 +85,7 @@ export const SearchListItem = memo(({ item, type }: TrackItemProps) => {
       return item.description;
     } else if (type === "song") {
       return createArtistString(item?.artists?.primary);
-    } else if (type === "artist") {
+    } else {
       return item.type;
     }
   };

@@ -11,11 +11,13 @@ import { SearchAlbumList } from "@/components/search-term/search-album-list";
 import { SearchAllList } from "@/components/search-term/search-all-list";
 import { SearchArtistList } from "@/components/search-term/search-artist-list";
 import { SearchBar } from "@/components/search-term/search-bar";
+import { SearchPlaylistList } from "@/components/search-term/search-playlist-list";
 import { SearchSongList } from "@/components/search-term/search-song-list";
 import { colors, fontSizes } from "@/constants/tokens";
 import { useGetSearchAlbums } from "@/hooks/api/search/use-get-search-albums";
 import { useGetSearchAll } from "@/hooks/api/search/use-get-search-all";
 import { useGetSearchArtists } from "@/hooks/api/search/use-get-search-artists";
+import { useGetSearchPlaylists } from "@/hooks/api/search/use-get-search-playlists";
 import { useGetSearchSongs } from "@/hooks/api/search/use-get-search-songs";
 import { useDebounce } from "@/hooks/use-debounce";
 import { wp } from "@/lib/utils";
@@ -43,6 +45,12 @@ export default function SearchTerm() {
   const { data: searchArtistsData, isLoading: isSearchArtistsLoading } =
     useGetSearchArtists(debouncedSearchQuery, {
       enabled: activeFilter === "artists",
+      page: 1,
+      limit: 20,
+    });
+  const { data: searchPlaylistsData, isLoading: isSearchPlaylistsLoading } =
+    useGetSearchPlaylists(debouncedSearchQuery, {
+      enabled: activeFilter === "playlists",
       page: 1,
       limit: 20,
     });
@@ -76,6 +84,12 @@ export default function SearchTerm() {
       if (!searchArtistsData) return <EmptySearchList />;
 
       return <SearchArtistList artists={searchArtistsData.results} />;
+    } else if (activeFilter === "playlists") {
+      if (isSearchPlaylistsLoading) return <Loader />;
+
+      if (!searchPlaylistsData) return <EmptySearchList />;
+
+      return <SearchPlaylistList tracks={searchPlaylistsData.results} />;
     }
   };
 
