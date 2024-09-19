@@ -31,7 +31,7 @@ export function SearchBar({ searchQuery, setSearchQuery }: SearchBarProps) {
           placeholderTextColor={colors.text.secondary}
           value={searchQuery}
           onChangeText={setSearchQuery}
-          // autoFocus // TODO: Turn back on autoFocus
+          autoFocus
         />
         {searchQuery.length > 0 && (
           <TouchableOpacity
