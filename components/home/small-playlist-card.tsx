@@ -10,13 +10,16 @@ import { createTrack, wp } from "@/lib/utils";
 import type { MiniPlaylist } from "@/types/playlist";
 import FastImage from "react-native-fast-image";
 
-type SmallPlaylistCardProps = MiniPlaylist;
+type SmallPlaylistCardProps = MiniPlaylist & {
+  onPress?: (id: string) => void;
+};
 
 export function SmallPlaylistCard({
   title,
   image,
   id,
   type,
+  onPress,
 }: SmallPlaylistCardProps) {
   const router = useRouter();
   const segments = useSegments();
@@ -26,6 +29,10 @@ export function SmallPlaylistCard({
   });
 
   const handleNavigate = async () => {
+    if (onPress) {
+      onPress(id);
+      return;
+    }
     let path = "";
 
     if (type === "album") {

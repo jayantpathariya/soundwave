@@ -1,4 +1,5 @@
-import React from "react";
+import { useRouter } from "expo-router";
+import React, { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedScrollHandler,
@@ -24,8 +25,11 @@ type ArtistProps = {
 const ItemSeparator = () => <View style={styles.separator} />;
 const VerticalSeparator = () => <View style={styles.verticalSeparator} />;
 
+const renderItem = ({ item }: { item: Song }) => <TrackItem track={item} />;
+
 export function Artist({ id }: ArtistProps) {
   const { data, isLoading } = useGetArtist(id as string);
+  const router = useRouter();
 
   const scrollY = useSharedValue(0);
 
@@ -35,9 +39,17 @@ export function Artist({ id }: ArtistProps) {
     },
   });
 
-  if (isLoading || !data) return <Loader />;
+  const handleAlbumPress = useCallback(
+    (id: string) => {
+      router.navigate({
+        pathname: "/search/search-term/album/[id]",
+        params: { id },
+      });
+    },
+    [router]
+  );
 
-  const renderItem = ({ item }: { item: Song }) => <TrackItem track={item} />;
+  if (isLoading || !data) return <Loader />;
 
   return (
     <Animated.ScrollView
@@ -65,11 +77,18 @@ export function Artist({ id }: ArtistProps) {
         />
       </View>
       <View style={[{ marginTop: wp(6) }, defaultStyles.paddingHorizontal]}>
-        <Text style={styles.title}>Top Albums</Text>
+        <View style={styles.songsTextContainer}>
+          <Text style={styles.title}>Top Albums</Text>
+          <TouchableOpacity activeOpacity={0.7}>
+            <Text style={styles.more}>more</Text>
+          </TouchableOpacity>
+        </View>
         <FlatList
           data={data.topAlbums}
           horizontal
-          renderItem={({ item }) => <SmallPlaylistCard {...item} />}
+          renderItem={({ item }) => (
+            <SmallPlaylistCard {...item} onPress={handleAlbumPress} />
+          )}
           keyExtractor={(item) => item.id}
           style={styles.horizontalList}
           ItemSeparatorComponent={VerticalSeparator}
@@ -81,8 +100,10 @@ export function Artist({ id }: ArtistProps) {
         <FlatList
           data={data.singles}
           horizontal
-          // @ts-ignore
-          renderItem={({ item }) => <SmallPlaylistCard {...item} />}
+          renderItem={({ item }) => (
+            // @ts-ignore
+            <SmallPlaylistCard {...item} onPress={handleAlbumPress} />
+          )}
           keyExtractor={(item) => item.id}
           style={styles.horizontalList}
           ItemSeparatorComponent={VerticalSeparator}

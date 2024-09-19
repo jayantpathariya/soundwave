@@ -7,7 +7,7 @@ import TrackPlayer from "react-native-track-player";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { getSong } from "@/hooks/api/use-get-song";
-import { createTrack, wp } from "@/lib/utils";
+import { createArtistString, createTrack, wp } from "@/lib/utils";
 import { Song } from "@/types/song";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -43,8 +43,12 @@ export const TrackItem = memo(({ track, onTrackSelect }: TrackItemProps) => {
         />
 
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{decode(track.title)}</Text>
-          <Text style={styles.artist}>{track.artists.primary[0].name}</Text>
+          <Text numberOfLines={1} style={styles.title}>
+            {decode(track.title)}
+          </Text>
+          <Text numberOfLines={1} style={styles.artist}>
+            {createArtistString(track.artists.primary)}
+          </Text>
         </View>
       </View>
       <TouchableOpacity>

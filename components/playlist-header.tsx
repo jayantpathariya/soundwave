@@ -24,7 +24,9 @@ export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
           />
         </View>
         <View style={styles.infoTextContainer}>
-          <Text style={styles.infoTitle}>{playlist.title}</Text>
+          <Text numberOfLines={1} style={styles.infoTitle}>
+            {playlist.title}
+          </Text>
           <Text style={styles.infoSubtitle}>
             {playlist.type} • {playlist.songCount} songs
           </Text>
