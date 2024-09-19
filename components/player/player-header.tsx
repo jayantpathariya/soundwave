@@ -3,7 +3,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { colors, fontSizes } from "@/constants/tokens";
 
-export function PlayerHeader() {
+type PlayerHeaderProps = {
+  playingFrom: string;
+};
+
+export function PlayerHeader({ playingFrom }: PlayerHeaderProps) {
   return (
     <View style={styles.header}>
       <TouchableOpacity activeOpacity={0.7}>
@@ -11,7 +15,7 @@ export function PlayerHeader() {
       </TouchableOpacity>
       <View style={styles.headerTextContainer}>
         <Text style={styles.headerTitle}>Now Playing</Text>
-        <Text style={styles.headerSubtitle}>From Playlist</Text>
+        <Text style={styles.headerSubtitle}>{playingFrom}</Text>
       </View>
       <TouchableOpacity activeOpacity={0.7}>
         <Ionicons

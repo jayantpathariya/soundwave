@@ -12,13 +12,7 @@ import FastImage from "react-native-fast-image";
 
 type PlaylistCardProps = MiniPlaylist;
 
-export function PlaylistCard({
-  id,
-  title,
-  image,
-  description,
-  type,
-}: PlaylistCardProps) {
+export function PlaylistCard({ id, title, image, type }: PlaylistCardProps) {
   const router = useRouter();
   const segments = useSegments();
 
@@ -37,7 +31,7 @@ export function PlaylistCard({
       if (isLoading || !song) return;
 
       await TrackPlayer.reset();
-      await TrackPlayer.add(createTrack(song[0]));
+      await TrackPlayer.add(createTrack(song[0], title));
       await TrackPlayer.play();
 
       return;
@@ -62,9 +56,9 @@ export function PlaylistCard({
       <Text numberOfLines={1} style={styles.title}>
         {title}
       </Text>
-      <Text numberOfLines={1} style={styles.subtitle}>
+      {/* <Text numberOfLines={1} style={styles.subtitle}>
         {description}
-      </Text>
+      </Text> */}
     </TouchableOpacity>
   );
 }

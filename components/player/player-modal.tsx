@@ -92,7 +92,7 @@ export const PlayerModal = memo(
                 ]}
               >
                 {/* Header */}
-                <PlayerHeader />
+                <PlayerHeader playingFrom={activeTrack?.playlistTitle ?? ""} />
 
                 {/* Artwork */}
                 <View style={styles.artworkContainer}>

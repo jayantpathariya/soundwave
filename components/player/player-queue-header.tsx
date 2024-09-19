@@ -5,9 +5,13 @@ import { colors, fontSizes } from "@/constants/tokens";
 
 type PlayerQueueHeaderProps = {
   onClose: () => void;
+  playingFrom: string;
 };
 
-export function PlayerQueueHeader({ onClose }: PlayerQueueHeaderProps) {
+export function PlayerQueueHeader({
+  onClose,
+  playingFrom,
+}: PlayerQueueHeaderProps) {
   return (
     <View style={styles.header}>
       <TouchableOpacity
@@ -19,7 +23,9 @@ export function PlayerQueueHeader({ onClose }: PlayerQueueHeaderProps) {
       </TouchableOpacity>
       <View style={styles.headerTextContainer}>
         <Text style={styles.headerTitle}>Now Playing</Text>
-        <Text style={styles.headerSubtitle}>From Playlist</Text>
+        <Text numberOfLines={1} style={styles.headerSubtitle}>
+          From {playingFrom}
+        </Text>
       </View>
     </View>
   );

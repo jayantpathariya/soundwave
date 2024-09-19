@@ -4,6 +4,7 @@ import TrackPlayer, { useIsPlaying } from "react-native-track-player";
 
 import { colors } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
+import { PlayerRepeatToggle } from "./player-repeat-toggle";
 
 export function PlayerControls() {
   const { playing } = useIsPlaying();
@@ -24,9 +25,16 @@ export function PlayerControls() {
     }
   };
 
+  const handleShuffle = async () => {
+    const queue = await TrackPlayer.getQueue();
+    const shuffledQueue = queue.sort(() => Math.random() - 0.5);
+    await TrackPlayer.setQueue(shuffledQueue);
+    await TrackPlayer.play();
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.7}>
+      <TouchableOpacity activeOpacity={0.7} onPress={handleShuffle}>
         <Ionicons name="shuffle" size={30} color={colors.icon.primary} />
       </TouchableOpacity>
       <TouchableOpacity
@@ -45,7 +53,7 @@ export function PlayerControls() {
         onPress={togglePlayPause}
       >
         <Ionicons
-          name={playing ? "pause-sharp" : "play-sharp"}
+          name={playing ? "pause" : "play"}
           size={36}
           color={colors.background}
           style={[!playing && { transform: [{ translateX: wp(1) }] }]}
@@ -61,9 +69,7 @@ export function PlayerControls() {
           color={colors.icon.primary}
         />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7}>
-        <Ionicons name="repeat-sharp" size={30} color={colors.icon.primary} />
-      </TouchableOpacity>
+      <PlayerRepeatToggle size={28} />
     </View>
   );
 }

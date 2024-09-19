@@ -57,13 +57,17 @@ export const Playlist = memo(
         const afterTracks = songs.slice(trackIndex + 1);
 
         await TrackPlayer.reset();
-        await TrackPlayer.add(createTrack(selectedTrack));
-        await TrackPlayer.add(afterTracks.map(createTrack));
-        await TrackPlayer.add(beforeTracks.map(createTrack));
+        await TrackPlayer.add(createTrack(selectedTrack, title));
+        await TrackPlayer.add(
+          afterTracks.map((track) => createTrack(track, title))
+        );
+        await TrackPlayer.add(
+          beforeTracks.map((track) => createTrack(track, title))
+        );
 
         await TrackPlayer.play();
       },
-      [songs]
+      [songs, title]
     );
 
     return (
@@ -102,7 +106,11 @@ export const Playlist = memo(
             data={songs}
             ItemSeparatorComponent={ItemSeparator}
             renderItem={({ item }) => (
-              <TrackItem track={item} onTrackSelect={handleTrackSelect} />
+              <TrackItem
+                track={item}
+                onTrackSelect={handleTrackSelect}
+                playlistTitle={title}
+              />
             )}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={defaultStyles.paddingBottom}

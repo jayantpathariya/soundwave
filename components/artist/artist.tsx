@@ -60,9 +60,13 @@ export function Artist({ id }: ArtistProps) {
       const afterTracks = artist.topSongs.slice(trackIndex + 1);
 
       await TrackPlayer.reset();
-      await TrackPlayer.add(createTrack(selectedTrack));
-      await TrackPlayer.add(afterTracks.map(createTrack));
-      await TrackPlayer.add(beforeTracks.map(createTrack));
+      await TrackPlayer.add(createTrack(selectedTrack, artist?.name ?? ""));
+      await TrackPlayer.add(
+        afterTracks.map((track) => createTrack(track, artist?.name ?? ""))
+      );
+      await TrackPlayer.add(
+        beforeTracks.map((track) => createTrack(track, artist?.name ?? ""))
+      );
 
       await TrackPlayer.play();
     },
@@ -84,7 +88,11 @@ export function Artist({ id }: ArtistProps) {
   );
 
   const renderItem = ({ item }: { item: Song }) => (
-    <TrackItem track={item} onTrackSelect={handleTrackSelect} />
+    <TrackItem
+      track={item}
+      onTrackSelect={handleTrackSelect}
+      playlistTitle={artist?.name ?? ""}
+    />
   );
 
   if (isLoading || !artist) return <Loader />;

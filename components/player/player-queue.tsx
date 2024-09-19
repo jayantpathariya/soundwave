@@ -57,7 +57,10 @@ export const PlayerQueue = memo(
       >
         <ScreenWrapper>
           <View style={defaultStyles.paddingHorizontal}>
-            <PlayerQueueHeader onClose={handleClose} />
+            <PlayerQueueHeader
+              onClose={handleClose}
+              playingFrom={activeTrack.playlistTitle}
+            />
 
             <View style={styles.nowPlayingItem}>
               <Text style={styles.queueTitle}>Now Playing</Text>

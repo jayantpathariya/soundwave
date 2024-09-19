@@ -19,7 +19,7 @@ export const createArtistString = (artists: ArtistMap[]) => {
   return artists.map((artist) => artist.name).join(", ");
 };
 
-export const createTrack = (song: Song): Track => {
+export const createTrack = (song: Song, playlistTitle: string): Track => {
   const track = {
     id: song.id,
     url:
@@ -28,6 +28,7 @@ export const createTrack = (song: Song): Track => {
     duration: parseInt(song.duration ?? "0"),
     title: song.title,
     artist: createArtistString(song.artists.primary),
+    playlistTitle: playlistTitle,
     album: song.album.title,
     date: new Date(song.releaseDate ?? "1970-01-01").toISOString(),
     artwork: song.image.find((link) => link.quality === "500x500")?.url,

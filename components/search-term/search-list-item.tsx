@@ -58,7 +58,7 @@ export const SearchListItem = memo(({ item, type }: TrackItemProps) => {
       const song = await getSong(item.id);
 
       await TrackPlayer.reset();
-      await TrackPlayer.add(createTrack(song[0]));
+      await TrackPlayer.add(createTrack(song[0], ""));
       await TrackPlayer.play();
 
       return;

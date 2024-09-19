@@ -14,53 +14,56 @@ import { Ionicons } from "@expo/vector-icons";
 type TrackItemProps = {
   track: Song;
   onTrackSelect?: (track: Song) => void;
+  playlistTitle: string;
 };
 
-export const TrackItem = memo(({ track, onTrackSelect }: TrackItemProps) => {
-  const handleTrackSelect = useCallback(async () => {
-    if (onTrackSelect) {
-      onTrackSelect(track);
-      return;
-    } else {
-      const song = await getSong(track.id);
+export const TrackItem = memo(
+  ({ track, onTrackSelect, playlistTitle }: TrackItemProps) => {
+    const handleTrackSelect = useCallback(async () => {
+      if (onTrackSelect) {
+        onTrackSelect(track);
+        return;
+      } else {
+        const song = await getSong(track.id);
 
-      await TrackPlayer.reset();
-      await TrackPlayer.add(createTrack(song[0]));
-      await TrackPlayer.play();
-    }
-  }, [onTrackSelect, track]);
+        await TrackPlayer.reset();
+        await TrackPlayer.add(createTrack(song[0], playlistTitle));
+        await TrackPlayer.play();
+      }
+    }, [onTrackSelect, track, playlistTitle]);
 
-  return (
-    <TouchableOpacity
-      style={styles.container}
-      activeOpacity={0.7}
-      onPress={handleTrackSelect}
-    >
-      <View style={styles.infoContainer}>
-        <FastImage
-          source={{ uri: track.image[1].url ?? unknownTrackImageUrl }}
-          style={styles.image}
-        />
+    return (
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={0.7}
+        onPress={handleTrackSelect}
+      >
+        <View style={styles.infoContainer}>
+          <FastImage
+            source={{ uri: track.image[1].url ?? unknownTrackImageUrl }}
+            style={styles.image}
+          />
 
-        <View style={styles.textContainer}>
-          <Text numberOfLines={1} style={styles.title}>
-            {decode(track.title)}
-          </Text>
-          <Text numberOfLines={1} style={styles.artist}>
-            {createArtistString(track.artists.primary)}
-          </Text>
+          <View style={styles.textContainer}>
+            <Text numberOfLines={1} style={styles.title}>
+              {decode(track.title)}
+            </Text>
+            <Text numberOfLines={1} style={styles.artist}>
+              {createArtistString(track.artists.primary)}
+            </Text>
+          </View>
         </View>
-      </View>
-      <TouchableOpacity>
-        <Ionicons
-          name="ellipsis-vertical"
-          size={24}
-          color={colors.text.secondary}
-        />
+        <TouchableOpacity>
+          <Ionicons
+            name="ellipsis-vertical"
+            size={24}
+            color={colors.text.secondary}
+          />
+        </TouchableOpacity>
       </TouchableOpacity>
-    </TouchableOpacity>
-  );
-});
+    );
+  }
+);
 
 TrackItem.displayName = "TrackItem";
 

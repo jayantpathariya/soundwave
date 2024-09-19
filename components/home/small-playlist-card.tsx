@@ -43,7 +43,7 @@ export function SmallPlaylistCard({
       if (isLoading || !song) return;
 
       await TrackPlayer.reset();
-      await TrackPlayer.add(createTrack(song[0]));
+      await TrackPlayer.add(createTrack(song[0], title));
       await TrackPlayer.play();
 
       return;
