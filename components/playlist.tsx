@@ -16,6 +16,7 @@ import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { createTrack, wp } from "@/lib/utils";
 import type { Album } from "@/types/album";
+import { ArtistSongs } from "@/types/artist";
 import type { Playlist as PlaylistType } from "@/types/playlist";
 import { Song } from "@/types/song";
 import { memo, useCallback } from "react";
@@ -24,7 +25,7 @@ import { ScreenWrapper } from "./screen-wrapper";
 import { TrackItem } from "./track-item";
 
 type PlaylistProps = {
-  playlist: PlaylistType | Album;
+  playlist: PlaylistType | Album | ArtistSongs;
 };
 
 const ItemSeparator = () => <View style={styles.separator} />;

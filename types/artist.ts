@@ -67,3 +67,16 @@ export type Artist = {
 export type ArtistResponse = {
   data: Artist;
 };
+
+export type ArtistSongs = {
+  title: string;
+  image: DownloadLink[];
+  type: string;
+  total: number;
+  songs: Song[];
+  songCount: number;
+};
+
+export type ArtistSongsResponse = {
+  data: ArtistSongs;
+};

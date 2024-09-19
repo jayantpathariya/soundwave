@@ -6,10 +6,11 @@ import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
 import type { Album } from "@/types/album";
+import { ArtistSongs } from "@/types/artist";
 import type { Playlist } from "@/types/playlist";
 
 type PlaylistHeaderProps = {
-  playlist: Playlist | Album;
+  playlist: Playlist | Album | ArtistSongs;
 };
 
 export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
@@ -28,7 +29,8 @@ export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
             {playlist.title}
           </Text>
           <Text style={styles.infoSubtitle}>
-            {playlist.type} • {playlist.songCount} songs
+            {playlist.type}{" "}
+            {playlist?.songCount && <Text>• {playlist?.songCount} songs</Text>}
           </Text>
         </View>
       </View>

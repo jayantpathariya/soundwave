@@ -69,6 +69,20 @@ export function Artist({ id }: ArtistProps) {
     [artist]
   );
 
+  const handleMorePress = useCallback(
+    async (type: "songs" | "albums") => {
+      if (!artist) return;
+
+      if (type === "songs") {
+        router.navigate({
+          pathname: "/(tabs)/search/search-term/artist/[id]/artist-tracks",
+          params: { id: artist.id },
+        });
+      }
+    },
+    [artist, router]
+  );
+
   const renderItem = ({ item }: { item: Song }) => (
     <TrackItem track={item} onTrackSelect={handleTrackSelect} />
   );
@@ -87,7 +101,10 @@ export function Artist({ id }: ArtistProps) {
       <View style={defaultStyles.paddingHorizontal}>
         <View style={styles.songsTextContainer}>
           <Text style={[styles.title, { marginBottom: wp(4) }]}>Top Songs</Text>
-          <TouchableOpacity activeOpacity={0.7}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => handleMorePress("songs")}
+          >
             <Text style={styles.more}>more</Text>
           </TouchableOpacity>
         </View>
@@ -103,7 +120,10 @@ export function Artist({ id }: ArtistProps) {
       <View style={[{ marginTop: wp(6) }, defaultStyles.paddingHorizontal]}>
         <View style={styles.songsTextContainer}>
           <Text style={styles.title}>Top Albums</Text>
-          <TouchableOpacity activeOpacity={0.7}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => handleMorePress("albums")}
+          >
             <Text style={styles.more}>more</Text>
           </TouchableOpacity>
         </View>
