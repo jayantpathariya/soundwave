@@ -1,6 +1,6 @@
 import { DownloadLink } from "@/types/common";
 import { Song } from "@/types/song";
-import { Artist } from "./artist";
+import { ArtistMap } from "./artist";
 
 type SearchAllAlbum = {
   id: string;
@@ -89,9 +89,9 @@ export type SearchAlbumsResultItem = {
   language: string;
   explicitContent: boolean;
   artists: {
-    primary: Artist[];
-    featured: Artist[];
-    all: Artist[];
+    primary: ArtistMap[];
+    featured: ArtistMap[];
+    all: ArtistMap[];
   };
   url: string;
   image: DownloadLink[];
@@ -106,7 +106,7 @@ export type SearchAlbumResponse = {
 };
 
 export type SearchArtistResponse = {
-  data: { total: number; start: number; results: Artist[] };
+  data: { total: number; start: number; results: ArtistMap[] };
 };
 
 export type SearchPlaylistResultItem = {

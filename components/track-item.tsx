@@ -8,7 +8,6 @@ import { wp } from "@/lib/utils";
 import { Song } from "@/types/song";
 import { Ionicons } from "@expo/vector-icons";
 import { memo } from "react";
-import { MovingText } from "./moving-text";
 
 type TrackItemProps = {
   track: Song;
@@ -29,11 +28,7 @@ export const TrackItem = memo(({ track, onTrackSelect }: TrackItemProps) => {
         />
 
         <View style={styles.textContainer}>
-          <MovingText
-            style={styles.title}
-            text={decode(track.title)}
-            animationThreshold={25}
-          />
+          <Text style={styles.title}>{decode(track.title)}</Text>
           <Text style={styles.artist}>{track.artists.primary[0].name}</Text>
         </View>
       </View>

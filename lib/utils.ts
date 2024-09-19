@@ -1,4 +1,4 @@
-import { Artist } from "@/types/artist";
+import { ArtistMap } from "@/types/artist";
 import { Song } from "@/types/song";
 import { Dimensions } from "react-native";
 import { Track } from "react-native-track-player";
@@ -15,7 +15,7 @@ export const wp = (percentage: number) => {
   return (percentage * width) / 100;
 };
 
-export const createArtistString = (artists: Artist[]) => {
+export const createArtistString = (artists: ArtistMap[]) => {
   return artists.map((artist) => artist.name).join(", ");
 };
 
@@ -47,4 +47,14 @@ export const formatSecondsToMinutes = (seconds: number) => {
     remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
 
   return `${minutes}:${formattedSeconds}`;
+};
+
+export const formatNumber = (number: number | null) => {
+  return number
+    ? Intl.NumberFormat("en-US", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+        notation: "compact",
+      }).format(number)
+    : "0";
 };

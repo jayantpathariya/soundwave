@@ -1,4 +1,4 @@
-import { Artist } from "@/types/artist";
+import { ArtistMap } from "@/types/artist";
 import { DownloadLink } from "@/types/common";
 import { Song } from "@/types/song";
 
@@ -12,9 +12,9 @@ export type Album = {
   language: string;
   explicitContent: boolean;
   artists: {
-    primary: Artist[];
-    featured: Artist[];
-    all: Artist[];
+    primary: ArtistMap[];
+    featured: ArtistMap[];
+    all: ArtistMap[];
   };
   songCount: number | null;
   url: string;

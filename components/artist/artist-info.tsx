@@ -1,12 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 
-import { Artist } from "@/assets/data/aritst";
 import { unknownArtistImageUrl } from "@/constants/images";
 import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
-import { wp } from "@/lib/utils";
+import { formatNumber, wp } from "@/lib/utils";
+import { Artist } from "@/types/artist";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -16,14 +16,14 @@ type ArtistInfoProps = {
 
 export function ArtistInfo({ artist }: ArtistInfoProps) {
   const imageColors = usePlayerBackground(
-    artist?.image ?? unknownArtistImageUrl
+    artist?.image[2].url ?? unknownArtistImageUrl
   );
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <FastImage
-          source={{ uri: artist.image ?? unknownArtistImageUrl }}
+          source={{ uri: artist?.image[2].url ?? unknownArtistImageUrl }}
           resizeMode="cover"
           style={styles.image}
         />
@@ -38,7 +38,9 @@ export function ArtistInfo({ artist }: ArtistInfoProps) {
         }
       >
         <View style={styles.statsContainer}>
-          <Text style={styles.statsText}>10K followers</Text>
+          <Text style={styles.statsText}>
+            {formatNumber(artist.followerCount)} followers
+          </Text>
           <View style={styles.actionsContainer}>
             <TouchableOpacity activeOpacity={0.7} style={styles.followBtn}>
               <Text style={styles.followText}>Follow</Text>

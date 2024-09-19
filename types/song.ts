@@ -1,4 +1,4 @@
-import { Artist } from "./artist";
+import { ArtistMap } from "./artist";
 import { DownloadLink } from "./common";
 
 export type Song = {
@@ -23,9 +23,9 @@ export type Song = {
     url: string;
   };
   artists: {
-    primary: Artist[];
-    featured: Artist[];
-    all: Artist[];
+    primary: ArtistMap[];
+    featured: ArtistMap[];
+    all: ArtistMap[];
   };
   image: DownloadLink[];
   downloadUrl: DownloadLink[];

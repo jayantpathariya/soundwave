@@ -4,10 +4,10 @@ import { wp } from "@/lib/utils";
 
 import { SearchListItem } from "@/components/search-term/search-list-item";
 import { defaultStyles } from "@/constants/styles";
-import { Artist } from "@/types/artist";
+import { ArtistMap } from "@/types/artist";
 
 type TracksProps = {
-  artists: Artist[];
+  artists: ArtistMap[];
 };
 
 export function SearchArtistList({ artists }: TracksProps) {

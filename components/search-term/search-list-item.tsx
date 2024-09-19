@@ -5,19 +5,19 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import TrackPlayer from "react-native-track-player";
 
-import { MovingText } from "@/components/moving-text";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { getSong } from "@/hooks/api/use-get-song";
 import { createArtistString, createTrack, wp } from "@/lib/utils";
-import type { Artist } from "@/types/artist";
+import type { ArtistMap } from "@/types/artist";
 import type {
   SearchAlbumsResultItem,
   SearchAll,
   SearchPlaylistResultItem,
 } from "@/types/search";
 import type { Song } from "@/types/song";
+import { decode } from "html-entities";
 
 type TrackItemProps =
   | {
@@ -34,7 +34,7 @@ type TrackItemProps =
     }
   | {
       type: "artist";
-      item: Artist;
+      item: ArtistMap;
     }
   | {
       type: "playlist";
@@ -72,9 +72,9 @@ export const SearchListItem = memo(({ item, type }: TrackItemProps) => {
 
   const renderTitle = () => {
     if (type === "artist") {
-      return item.name;
+      return decode(item.name);
     } else {
-      return item.title;
+      return decode(item.title);
     }
   };
 
@@ -82,7 +82,7 @@ export const SearchListItem = memo(({ item, type }: TrackItemProps) => {
     if (type === "all") {
       return item.description;
     } else if (type === "album") {
-      return item.description;
+      return item.type;
     } else if (type === "song") {
       return createArtistString(item?.artists?.primary);
     } else {
@@ -105,11 +105,9 @@ export const SearchListItem = memo(({ item, type }: TrackItemProps) => {
         </View>
 
         <View style={styles.textContainer}>
-          <MovingText
-            style={styles.title}
-            text={renderTitle()}
-            animationThreshold={25}
-          />
+          <Text numberOfLines={1} style={styles.title}>
+            {renderTitle()}
+          </Text>
           <Text numberOfLines={1} style={styles.artist}>
             {renderDescription()}
           </Text>

@@ -9,12 +9,12 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 
-import { Artist } from "@/assets/data/aritst";
 import { unknownArtistImageUrl } from "@/constants/images";
 import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
 import { usePlayerBackground } from "@/hooks/use-player-background";
 import { wp } from "@/lib/utils";
+import { Artist } from "@/types/artist";
 import { ScreenWrapper } from "../screen-wrapper";
 
 const HEADER_HEIGHT = wp(25);
@@ -30,7 +30,7 @@ type ArtistHeaderProps = {
 export function ArtistHeader({ scrollY, artist }: ArtistHeaderProps) {
   const router = useRouter();
   const imageColors = usePlayerBackground(
-    artist?.image ?? unknownArtistImageUrl
+    artist?.image[2].url ?? unknownArtistImageUrl
   );
 
   // Default fallback colors

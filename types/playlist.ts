@@ -1,11 +1,10 @@
-import { Artist } from "./artist";
+import { ArtistMap } from "./artist";
 import { DownloadLink } from "./common";
 import { Song } from "./song";
 
 export type MiniPlaylist = {
   id: string;
   title: string;
-  description: string;
   type: string;
   image: DownloadLink[];
   url: string;
@@ -28,7 +27,7 @@ export type Playlist = {
   url: string;
   image: DownloadLink[];
   songs: Song[];
-  artists: Artist[];
+  artists: ArtistMap[];
 };
 
 export type PlaylistResponse = {
