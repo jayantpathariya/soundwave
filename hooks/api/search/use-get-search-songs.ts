@@ -3,16 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import request from "@/lib/request";
 import { SearchSongResponse } from "@/types/search";
 
-const getSearchSongs = async (
-  query: string,
-  { page, limit }: { page: number; limit: number }
-) => {
+const getSearchSongs = async (query: string) => {
   const response = await request<SearchSongResponse>({
     url: "/search/songs",
     params: {
       query,
-      page,
-      limit,
+      page: 1,
+      limit: 50,
     },
   });
 
@@ -21,11 +18,11 @@ const getSearchSongs = async (
 
 export const useGetSearchSongs = (
   searchQuery: string,
-  { enabled, page, limit }: { enabled: boolean; page: number; limit: number }
+  { enabled }: { enabled: boolean }
 ) => {
   const query = useQuery({
     queryKey: ["search", "songs", { searchQuery }],
-    queryFn: () => getSearchSongs(searchQuery, { page, limit }),
+    queryFn: () => getSearchSongs(searchQuery),
     enabled: !!searchQuery && enabled,
   });
 

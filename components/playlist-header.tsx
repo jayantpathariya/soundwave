@@ -5,32 +5,36 @@ import FastImage from "react-native-fast-image";
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import type { Album } from "@/types/album";
-import { ArtistSongs } from "@/types/artist";
-import type { Playlist } from "@/types/playlist";
 
 type PlaylistHeaderProps = {
-  playlist: Playlist | Album | ArtistSongs;
+  title: string;
+  image: string;
+  songCount: number | null;
+  type: string;
 };
 
-export function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
+export function PlaylistHeader({
+  title,
+  image,
+  songCount,
+  type,
+}: PlaylistHeaderProps) {
   return (
     <View style={{ marginBottom: wp(6) }}>
       <View style={styles.infoContainer}>
         <View style={styles.artworkContainer}>
           <FastImage
-            source={{ uri: playlist.image[2].url ?? unknownTrackImageUrl }}
+            source={{ uri: image ?? unknownTrackImageUrl }}
             resizeMode="cover"
             style={styles.artwork}
           />
         </View>
         <View style={styles.infoTextContainer}>
           <Text numberOfLines={1} style={styles.infoTitle}>
-            {playlist.title}
+            {title}
           </Text>
           <Text style={styles.infoSubtitle}>
-            {playlist.type}{" "}
-            {playlist?.songCount && <Text>• {playlist?.songCount} songs</Text>}
+            {type} {songCount && <Text>• {songCount} songs</Text>}
           </Text>
         </View>
       </View>

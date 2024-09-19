@@ -33,26 +33,18 @@ export default function SearchTerm() {
   const { data: searchSongsData, isLoading: isSearchSongsLoading } =
     useGetSearchSongs(debouncedSearchQuery, {
       enabled: activeFilter === "songs",
-      page: 1,
-      limit: 20,
     });
   const { data: searchAlbumsData, isLoading: isSearchAlbumsLoading } =
     useGetSearchAlbums(debouncedSearchQuery, {
       enabled: activeFilter === "albums",
-      page: 1,
-      limit: 20,
     });
   const { data: searchArtistsData, isLoading: isSearchArtistsLoading } =
     useGetSearchArtists(debouncedSearchQuery, {
       enabled: activeFilter === "artists",
-      page: 1,
-      limit: 20,
     });
   const { data: searchPlaylistsData, isLoading: isSearchPlaylistsLoading } =
     useGetSearchPlaylists(debouncedSearchQuery, {
       enabled: activeFilter === "playlists",
-      page: 1,
-      limit: 20,
     });
 
   const handleFilterChange = (value: string) => {

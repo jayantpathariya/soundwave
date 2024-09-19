@@ -15,5 +15,12 @@ export default function AlbumScreen() {
     return <Loader />;
   }
 
-  return <Playlist playlist={data} />;
+  return (
+    <Playlist
+      image={data.image[2].url}
+      title={data.title}
+      songs={data.songs}
+      type={data.type}
+    />
+  );
 }

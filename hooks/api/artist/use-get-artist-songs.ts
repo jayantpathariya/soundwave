@@ -9,7 +9,7 @@ import {
 const getArtistSongs = async (id: string, page: number) => {
   const response = await request<ArtistSongsResponse>({
     url: `/artists/${id}/songs`,
-    params: { page, limit: 20 }, // Adjust the limit as needed
+    params: { page, limit: 20 },
   });
   return response.data;
 };
