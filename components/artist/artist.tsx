@@ -37,12 +37,7 @@ export function Artist({ id }: ArtistProps) {
 
   if (isLoading || !data) return <Loader />;
 
-  const renderItem = ({ item }: { item: Song }) => (
-    <TrackItem
-      track={item}
-      onTrackSelect={() => console.log("track selected")}
-    />
-  );
+  const renderItem = ({ item }: { item: Song }) => <TrackItem track={item} />;
 
   return (
     <Animated.ScrollView

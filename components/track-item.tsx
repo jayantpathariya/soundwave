@@ -1,25 +1,40 @@
 import { decode } from "html-entities";
+import { memo, useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FastImage from "react-native-fast-image";
+import TrackPlayer from "react-native-track-player";
 
 import { unknownTrackImageUrl } from "@/constants/images";
 import { colors, fontSizes } from "@/constants/tokens";
-import { wp } from "@/lib/utils";
+import { getSong } from "@/hooks/api/use-get-song";
+import { createTrack, wp } from "@/lib/utils";
 import { Song } from "@/types/song";
 import { Ionicons } from "@expo/vector-icons";
-import { memo } from "react";
 
 type TrackItemProps = {
   track: Song;
-  onTrackSelect: (track: Song) => void;
+  onTrackSelect?: (track: Song) => void;
 };
 
 export const TrackItem = memo(({ track, onTrackSelect }: TrackItemProps) => {
+  const handleTrackSelect = useCallback(async () => {
+    if (onTrackSelect) {
+      onTrackSelect(track);
+      return;
+    } else {
+      const song = await getSong(track.id);
+
+      await TrackPlayer.reset();
+      await TrackPlayer.add(createTrack(song[0]));
+      await TrackPlayer.play();
+    }
+  }, [onTrackSelect, track]);
+
   return (
     <TouchableOpacity
       style={styles.container}
       activeOpacity={0.7}
-      onPress={() => onTrackSelect(track)}
+      onPress={handleTrackSelect}
     >
       <View style={styles.infoContainer}>
         <FastImage

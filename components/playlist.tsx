@@ -18,7 +18,7 @@ import { createTrack, wp } from "@/lib/utils";
 import type { Album } from "@/types/album";
 import type { Playlist as PlaylistType } from "@/types/playlist";
 import { Song } from "@/types/song";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { PlaylistHeader } from "./playlist-header";
 import { ScreenWrapper } from "./screen-wrapper";
 import { TrackItem } from "./track-item";
@@ -36,21 +36,24 @@ export const Playlist = memo(({ playlist }: PlaylistProps) => {
 
   const router = useRouter();
 
-  const handleTrackSelect = async (selectedTrack: Song) => {
-    const trackIndex = playlist.songs.findIndex(
-      (track) => track.id === selectedTrack.id
-    );
+  const handleTrackSelect = useCallback(
+    async (selectedTrack: Song) => {
+      const trackIndex = playlist.songs.findIndex(
+        (track) => track.id === selectedTrack.id
+      );
 
-    const beforeTracks = playlist.songs.slice(0, trackIndex);
-    const afterTracks = playlist.songs.slice(trackIndex + 1);
+      const beforeTracks = playlist.songs.slice(0, trackIndex);
+      const afterTracks = playlist.songs.slice(trackIndex + 1);
 
-    await TrackPlayer.reset();
-    await TrackPlayer.add(createTrack(selectedTrack));
-    await TrackPlayer.add(afterTracks.map(createTrack));
-    await TrackPlayer.add(beforeTracks.map(createTrack));
+      await TrackPlayer.reset();
+      await TrackPlayer.add(createTrack(selectedTrack));
+      await TrackPlayer.add(afterTracks.map(createTrack));
+      await TrackPlayer.add(beforeTracks.map(createTrack));
 
-    await TrackPlayer.play();
-  };
+      await TrackPlayer.play();
+    },
+    [playlist.songs]
+  );
 
   return (
     <LinearGradient
