@@ -11,9 +11,10 @@ import { ArtistInfo } from "@/components/artist/artist-info";
 import { defaultStyles } from "@/constants/styles";
 import { colors, fontSizes } from "@/constants/tokens";
 import { useGetArtist } from "@/hooks/api/artist/use-get-artist";
-import { wp } from "@/lib/utils";
+import { createTrack, wp } from "@/lib/utils";
 import { Song } from "@/types/song";
 import { FlatList } from "react-native-gesture-handler";
+import TrackPlayer from "react-native-track-player";
 import { SmallPlaylistCard } from "../home/small-playlist-card";
 import { Loader } from "../loader";
 import { TrackItem } from "../track-item";
@@ -25,10 +26,8 @@ type ArtistProps = {
 const ItemSeparator = () => <View style={styles.separator} />;
 const VerticalSeparator = () => <View style={styles.verticalSeparator} />;
 
-const renderItem = ({ item }: { item: Song }) => <TrackItem track={item} />;
-
 export function Artist({ id }: ArtistProps) {
-  const { data, isLoading } = useGetArtist(id as string);
+  const { data: artist, isLoading } = useGetArtist(id as string);
   const router = useRouter();
 
   const scrollY = useSharedValue(0);
@@ -49,7 +48,32 @@ export function Artist({ id }: ArtistProps) {
     [router]
   );
 
-  if (isLoading || !data) return <Loader />;
+  const handleTrackSelect = useCallback(
+    async (selectedTrack: Song) => {
+      if (!artist || !artist.topSongs) return;
+
+      const trackIndex = artist.topSongs.findIndex(
+        (track) => track.id === selectedTrack.id
+      );
+
+      const beforeTracks = artist.topSongs.slice(0, trackIndex);
+      const afterTracks = artist.topSongs.slice(trackIndex + 1);
+
+      await TrackPlayer.reset();
+      await TrackPlayer.add(createTrack(selectedTrack));
+      await TrackPlayer.add(afterTracks.map(createTrack));
+      await TrackPlayer.add(beforeTracks.map(createTrack));
+
+      await TrackPlayer.play();
+    },
+    [artist]
+  );
+
+  const renderItem = ({ item }: { item: Song }) => (
+    <TrackItem track={item} onTrackSelect={handleTrackSelect} />
+  );
+
+  if (isLoading || !artist) return <Loader />;
 
   return (
     <Animated.ScrollView
@@ -58,8 +82,8 @@ export function Artist({ id }: ArtistProps) {
       onScroll={scrollHandler}
       scrollEventThrottle={16}
     >
-      <ArtistHeader scrollY={scrollY} artist={data} />
-      <ArtistInfo artist={data} />
+      <ArtistHeader scrollY={scrollY} artist={artist} />
+      <ArtistInfo artist={artist} />
       <View style={defaultStyles.paddingHorizontal}>
         <View style={styles.songsTextContainer}>
           <Text style={[styles.title, { marginBottom: wp(4) }]}>Top Songs</Text>
@@ -68,7 +92,7 @@ export function Artist({ id }: ArtistProps) {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={data.topSongs}
+          data={artist.topSongs}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           ItemSeparatorComponent={ItemSeparator}
@@ -84,7 +108,7 @@ export function Artist({ id }: ArtistProps) {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={data.topAlbums}
+          data={artist.topAlbums}
           horizontal
           renderItem={({ item }) => (
             <SmallPlaylistCard {...item} onPress={handleAlbumPress} />
@@ -98,7 +122,7 @@ export function Artist({ id }: ArtistProps) {
       <View style={[{ marginTop: wp(6) }, defaultStyles.paddingHorizontal]}>
         <Text style={styles.title}>Singles</Text>
         <FlatList
-          data={data.singles}
+          data={artist.singles}
           horizontal
           renderItem={({ item }) => (
             // @ts-ignore
