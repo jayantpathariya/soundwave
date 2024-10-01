@@ -6,10 +6,9 @@ import { unknownTrackImageUrl } from "@/constants/images";
 import { generatePath } from "@/constants/paths";
 import { colors, fontSizes } from "@/constants/tokens";
 import { wp } from "@/lib/utils";
-import { PlaylistType } from "@/types";
 
 type LibraryItemProps = {
-  playlist: PlaylistType;
+  playlist: { id: string; title: string; image?: string };
 };
 
 export function LibraryItem({ playlist }: LibraryItemProps) {
@@ -37,7 +36,7 @@ export function LibraryItem({ playlist }: LibraryItemProps) {
       />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{playlist.title}</Text>
-        <Text style={styles.subtitle}>Playlist • {playlist.tracks} songs</Text>
+        <Text style={styles.subtitle}>Playlist • {50} songs</Text>
       </View>
     </TouchableOpacity>
   );

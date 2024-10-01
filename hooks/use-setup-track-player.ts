@@ -7,7 +7,7 @@ import TrackPlayer, {
 
 const setupPlayer = async () => {
   await TrackPlayer.setupPlayer({
-    maxCacheSize: 1024 * 10,
+    maxCacheSize: 1024 * 100,
   });
   TrackPlayer.updateOptions({
     compactCapabilities: [
@@ -16,6 +16,9 @@ const setupPlayer = async () => {
       Capability.Stop,
       Capability.SkipToNext,
       Capability.SkipToPrevious,
+      Capability.JumpBackward,
+      Capability.JumpForward,
+      Capability.SeekTo,
     ],
     android: {
       appKilledPlaybackBehavior:

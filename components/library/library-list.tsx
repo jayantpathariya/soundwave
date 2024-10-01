@@ -2,19 +2,17 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 import { defaultStyles } from "@/constants/styles";
 import { wp } from "@/lib/utils";
-import { PlaylistType } from "@/types";
 import { Filters } from "./filters";
 import { LibraryItem } from "./library-item";
 
-type LibraryListProps = {
-  playlists: PlaylistType[];
-};
-
 const ItemSeparator = () => <View style={styles.separator} />;
+
+type LibraryListProps = {
+  playlists: { id: string; title: string }[];
+};
 
 export function LibraryList({ playlists }: LibraryListProps) {
   return (
-    // <View style={defaultStyles.container}>
     <FlatList
       ListHeaderComponent={<Filters />}
       data={playlists}
@@ -25,7 +23,6 @@ export function LibraryList({ playlists }: LibraryListProps) {
       ]}
       ItemSeparatorComponent={ItemSeparator}
     />
-    // </View>
   );
 }
 
