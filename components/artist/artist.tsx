@@ -82,6 +82,11 @@ export function Artist({ id }: ArtistProps) {
           pathname: "/(tabs)/search/search-term/artist/[id]/artist-tracks",
           params: { id: artist.id },
         });
+      } else if (type === "albums") {
+        router.navigate({
+          pathname: "/(tabs)/search/search-term/artist/[id]/artist-albums",
+          params: { id: artist.id, name: artist.name },
+        });
       }
     },
     [artist, router]

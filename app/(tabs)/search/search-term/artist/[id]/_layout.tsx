@@ -15,6 +15,12 @@ export default function ArtistIdLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="artist-albums"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

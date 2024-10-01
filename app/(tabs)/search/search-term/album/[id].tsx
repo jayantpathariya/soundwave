@@ -7,8 +7,6 @@ import { useGetAlbum } from "@/hooks/api/album/use-get-album";
 export default function AlbumScreen() {
   const { id } = useLocalSearchParams(); // Get playlist ID
 
-  console.log(id);
-
   const { data, isLoading } = useGetAlbum(id as string);
 
   if (isLoading || !data) {
