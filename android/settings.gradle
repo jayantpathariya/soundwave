@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'SoundWave'
+rootProject.name = 'Sound Wave'
 
 dependencyResolutionManagement {
   versionCatalogs {

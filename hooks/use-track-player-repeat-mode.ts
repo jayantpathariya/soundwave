@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import TrackPlayer, { RepeatMode } from "react-native-track-player";
+import TrackPlayer, { RepeatMode, State } from "react-native-track-player";
 
 export const useTrackPlayerRepeatMode = () => {
   const [repeatMode, setRepeatMode] = useState<RepeatMode>();
@@ -10,7 +10,9 @@ export const useTrackPlayerRepeatMode = () => {
   }, []);
 
   useEffect(() => {
-    TrackPlayer.getRepeatMode().then(setRepeatMode);
+    if (State.Ready === "ready") {
+      TrackPlayer.getRepeatMode().then(setRepeatMode);
+    }
   }, []);
 
   return { repeatMode, changeRepeatMode };

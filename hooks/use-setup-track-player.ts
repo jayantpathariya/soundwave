@@ -1,15 +1,19 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import TrackPlayer, {
   AppKilledPlaybackBehavior,
   Capability,
-  RepeatMode,
 } from "react-native-track-player";
 
+import { PlaybackServices } from "@/lib/playback-services";
+import { usePlayerStore } from "@/store/player-store";
+
 const setupPlayer = async () => {
+  TrackPlayer.registerPlaybackService(() => PlaybackServices);
+
   await TrackPlayer.setupPlayer({
     maxCacheSize: 1024 * 100,
   });
-  TrackPlayer.updateOptions({
+  await TrackPlayer.updateOptions({
     compactCapabilities: [
       Capability.Play,
       Capability.Pause,
@@ -24,20 +28,35 @@ const setupPlayer = async () => {
       appKilledPlaybackBehavior:
         AppKilledPlaybackBehavior.StopPlaybackAndRemoveNotification,
     },
+    progressUpdateEventInterval: 5,
   });
-
-  await TrackPlayer.setVolume(1);
-  await TrackPlayer.setRepeatMode(RepeatMode.Off);
 };
 
 export const useSetupTrackPlayer = ({ onLoad }: { onLoad?: () => void }) => {
+  const { currentTrack, repeatMode, position, queue } = usePlayerStore();
   const isInitialized = useRef(false);
+
+  const initializePlayer = useCallback(async () => {
+    if (!currentTrack) return;
+    const currentTrackIndex = queue.findIndex(
+      (track) => track.id === currentTrack.id
+    );
+
+    const beforeTracks = queue.slice(0, currentTrackIndex);
+    const afterTracks = queue.slice(currentTrackIndex + 1);
+    await TrackPlayer.add(currentTrack);
+    await TrackPlayer.add(afterTracks);
+    await TrackPlayer.add(beforeTracks);
+    await TrackPlayer.seekTo(position);
+    await TrackPlayer.setRepeatMode(repeatMode);
+  }, [currentTrack, position, repeatMode, queue]);
 
   useEffect(() => {
     if (!isInitialized.current) {
       setupPlayer()
-        .then(() => {
+        .then(async () => {
           isInitialized.current = true;
+          await initializePlayer();
           onLoad?.();
         })
         .catch((error) => {
@@ -45,5 +64,5 @@ export const useSetupTrackPlayer = ({ onLoad }: { onLoad?: () => void }) => {
           console.error(error);
         });
     }
-  }, [onLoad]);
+  }, [onLoad, initializePlayer]);
 };

@@ -3,7 +3,7 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
 import { decode } from "html-entities";
-import {
+import React, {
   forwardRef,
   memo,
   useCallback,
